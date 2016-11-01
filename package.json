@@ -1,0 +1,37 @@
+{
+  "name": "incheon-game",
+  "version": "0.0.1",
+  "engines": {
+    "node": "4.3.0"
+  },
+  "description": "An HTML5 multiplayer game based on Incheon",
+  "main": "main.js",
+  "dependencies": {
+    "browserify": "^13.0.1",
+    "express": "^4.14.0",
+    "incheon": "OpherV/Incheon.git",
+    "query-string": "^4.2.3",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "watchify": "^3.7.0"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "postinstall": "browserify src/client/clientMain.js -i nodejs-physijs -o dist/bundle.js -t [ babelify --presets [ es2015 ] ",
+    "watchify": "watchify src/client/clientMain.js -i nodejs-physijs -o dist/bundle.js -v -d -t [ babelify --presets [ es2015 ]"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpherV/spaaace.git"
+  },
+  "keywords": [
+    "game",
+    "incheon",
+    "multiplayer",
+    "websockets"
+  ],
+  "author": "Jane Doe",
+  "license": "Apache-2.0"
+}
