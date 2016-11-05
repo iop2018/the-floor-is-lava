@@ -1,6 +1,5 @@
 "use strict";
 
-
 const DynamicObject= require('incheon').serialize.DynamicObject;
 
 class Player extends DynamicObject {
@@ -21,6 +20,5 @@ class Player extends DynamicObject {
         this.class = Player;
     };
 }
-
 
 module.exports = Player;

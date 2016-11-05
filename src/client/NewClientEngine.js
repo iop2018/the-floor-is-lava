@@ -1,22 +1,22 @@
 const ClientEngine = require('incheon').ClientEngine;
 
 
-class SpaaaceClientEngine extends ClientEngine{
+class NewClientEngine extends ClientEngine{
     constructor(gameEngine, options){
         super(gameEngine, options);
 
-        this.serializer.registerClass(require('../common/Ship'));
-        this.serializer.registerClass(require('../common/Missile'));
-
+        this.serializer.registerClass(require('../common/Player'));
         this.gameEngine.on('client.preStep', this.preStep.bind(this));
     }
 
-    start(){
+    start() {
         var that = this;
 
         super.start();
 
         //  Game input
+        // TODO: clean up this code it's all phaser stuff
+        //     not relevant in a boilerplate situation
         this.cursors = game.input.keyboard.createCursorKeys();
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -25,18 +25,14 @@ class SpaaaceClientEngine extends ClientEngine{
             missileHit: game.add.audio('missileHit')
         };
 
-        this.gameEngine.on("fireMissile",function(){
-            that.sounds.fireMissile.play();
-        })
-
-        this.gameEngine.on("missileHit",function(){
-            that.sounds.missileHit.play();
-        })
+        this.gameEngine.on("fireMissile", => { this.sounds.fireMissile.play(); });
+        this.gameEngine.on("missileHit", => { this.sounds.missileHit.play(); });
     }
 
     // our pre-step is to process all inputs
-    preStep(){
-        //continuous press
+    preStep() {
+
+        // continuous press
         if (this.cursors.up.isDown) {
             this.sendInput('up', { movement: true } );
         }
@@ -49,13 +45,12 @@ class SpaaaceClientEngine extends ClientEngine{
             this.sendInput('right', { movement: true });
         }
 
-        //single press
+        // single press
         if (this.spaceKey.isDown && this.spaceKey.repeats == 0){
             this.sendInput('space');
         }
     }
-
 }
 
 
-module.exports = SpaaaceClientEngine;
+module.exports = NewClientEngine;

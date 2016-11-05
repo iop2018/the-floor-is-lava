@@ -2,7 +2,6 @@
 
 const GameEngine = require('incheon').GameEngine;
 const Player = require('./Player');
-const Ball = require('./Ball');
 
 class NewGameEngine extends GameEngine {
 

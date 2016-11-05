@@ -1,10 +1,9 @@
 "use strict";
 
 const Renderer = require('incheon').render.Renderer;
-var Ship = require("../common/Ship");
-var Missile = require("../common/Missile");
+var Player = require("../common/Player");
 
-class SpaaaceRenderer extends Renderer {
+class NewRenderer extends Renderer {
 
     constructor() {
         super();
@@ -19,13 +18,10 @@ class SpaaaceRenderer extends Renderer {
     }
 
     init() {
-
     }
 
     draw() {
         super.draw();
-
-
     }
 
     addObject(objData, options) {
@@ -64,4 +60,4 @@ class SpaaaceRenderer extends Renderer {
 
 }
 
-module.exports = SpaaaceRenderer;
+module.exports = NewRenderer;

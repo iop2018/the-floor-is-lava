@@ -1,15 +1,13 @@
 "use strict";
 
 const path = require('path');
-const Ship = require('../common/Ship');
 const ServerEngine = require('incheon').ServerEngine;
 
 class SpaaaceServerEngine extends ServerEngine{
+
     constructor(io, gameEngine, inputOptions){
         super(io, gameEngine, inputOptions);
-
-        this.serializer.registerClass(require('../common/Ship'));
-        this.serializer.registerClass(require('../common/Missile'));
+        this.serializer.registerClass(require('../common/Player'));
     };
 
     start(){
@@ -18,9 +16,6 @@ class SpaaaceServerEngine extends ServerEngine{
 
     onPlayerConnected(socket){
         super.onPlayerConnected(socket);
-
-        var that = this;
-        this.gameEngine.makeShip(socket.playerId);
     };
 
     onPlayerDisconnected(socketId, playerId){
