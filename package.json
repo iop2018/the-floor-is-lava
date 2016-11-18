@@ -15,6 +15,8 @@
   },
   "devDependencies": {
     "babelify": "^7.3.0",
+    "eslint": "^3.10.2",
+    "eslint-config-google": "^0.7.0",
     "watchify": "^3.7.0"
   },
   "scripts": {
@@ -25,6 +27,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OpherV/spaaace.git"
+  },
+  "browserify": {
+    "transform": ["babelify"]
   },
   "keywords": [
     "game",

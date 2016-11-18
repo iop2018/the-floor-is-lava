@@ -3,7 +3,7 @@
 const path = require('path');
 const ServerEngine = require('incheon').ServerEngine;
 
-class SpaaaceServerEngine extends ServerEngine{
+class MyServerEngine extends ServerEngine{
 
     constructor(io, gameEngine, inputOptions){
         super(io, gameEngine, inputOptions);
@@ -25,4 +25,4 @@ class SpaaaceServerEngine extends ServerEngine{
     };
 }
 
-module.exports = SpaaaceServerEngine;
+module.exports = MyServerEngine;

@@ -3,7 +3,7 @@
 const GameEngine = require('incheon').GameEngine;
 const Player = require('./Player');
 
-class NewGameEngine extends GameEngine {
+class MyGameEngine extends GameEngine {
 
     constructor(options){
         super(options);
@@ -90,4 +90,4 @@ class NewGameEngine extends GameEngine {
     }
 }
 
-module.exports = NewGameEngine;
+module.exports = MyGameEngine;

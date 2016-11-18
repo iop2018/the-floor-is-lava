@@ -3,7 +3,7 @@
 const Renderer = require('incheon').render.Renderer;
 var Player = require("../common/Player");
 
-class NewRenderer extends Renderer {
+class MyRenderer extends Renderer {
 
     constructor() {
         super();
@@ -60,4 +60,4 @@ class NewRenderer extends Renderer {
 
 }
 
-module.exports = NewRenderer;
+module.exports = MyRenderer;

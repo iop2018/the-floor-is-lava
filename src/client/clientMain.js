@@ -1,7 +1,7 @@
 const qsOptions = require("query-string").parse(location.search);
-const NewClientEngine = require("../client/NewClientEngine");
-const NewRenderer = require('../client/NewRenderer');
-const NewGameEngine = require('../common/NewGameEngine');
+const MyClientEngine = require("../client/MyClientEngine");
+const MyRenderer = require('../client/MyRenderer');
+const MyGameEngine = require('../common/MyGameEngine');
 const Synchronizer = require('incheon').Synchronizer;
 
 // default options, overwritten by query-string options
@@ -14,10 +14,10 @@ const defaults = {
 let options = Object.assign(defaults, qsOptions);
 
 // create a client engine, a game engine, a synchronizer, and a renderer
-const renderer = new NewRenderer();
+const renderer = new MyRenderer();
 const gameOptions = Object.assign({ renderer }, options);
-const gameEngine = new NewGameEngine(gameOptions);
-const clientEngine = new NewClientEngine(gameEngine, options);
+const gameEngine = new MyGameEngine(gameOptions);
+const clientEngine = new MyClientEngine(gameEngine, options);
 const synchronizer = new Synchronizer(clientEngine);
 
 // object synchronization:

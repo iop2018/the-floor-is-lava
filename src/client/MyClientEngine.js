@@ -1,7 +1,6 @@
 const ClientEngine = require('incheon').ClientEngine;
 
-
-class NewClientEngine extends ClientEngine{
+class MyClientEngine extends ClientEngine{
     constructor(gameEngine, options){
         super(gameEngine, options);
 
@@ -25,8 +24,8 @@ class NewClientEngine extends ClientEngine{
             missileHit: game.add.audio('missileHit')
         };
 
-        this.gameEngine.on("fireMissile", => { this.sounds.fireMissile.play(); });
-        this.gameEngine.on("missileHit", => { this.sounds.missileHit.play(); });
+        this.gameEngine.on("fireMissile", () => { this.sounds.fireMissile.play(); });
+        this.gameEngine.on("missileHit", () => { this.sounds.missileHit.play(); });
     }
 
     // our pre-step is to process all inputs
@@ -53,4 +52,4 @@ class NewClientEngine extends ClientEngine{
 }
 
 
-module.exports = NewClientEngine;
+module.exports = MyClientEngine;
