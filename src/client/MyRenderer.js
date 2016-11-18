@@ -1,7 +1,6 @@
-"use strict";
+'use strict';
 
 const Renderer = require('incheon').render.Renderer;
-var Player = require("../common/Player");
 
 class MyRenderer extends Renderer {
 
@@ -25,30 +24,15 @@ class MyRenderer extends Renderer {
     }
 
     addObject(objData, options) {
-        let sprite;
+        let sprite = {};
 
-        if (objData.class == Ship) {
-            sprite = window.game.add.sprite(objData.x, objData.y, 'ship');
-            this.sprites[objData.id] = sprite;
-            //if own player's ship - color it
-
-            if (objData.isPlayerControlled) {
-                sprite.tint = 0XFF00FF;
-            }
-
-            sprite.anchor.setTo(0.5, 0.5);
-            sprite.width = 50;
-            sprite.height = 45;
-        } else if (objData.class == Missile) {
-            sprite = window.game.add.sprite(objData.x, objData.y, 'missile');
-            this.sprites[objData.id] = sprite;
-
-            sprite.width = 81 * 0.5;
-            sprite.height = 46 * 0.5;
-            sprite.anchor.setTo(0.5, 0.5);
-        }
+        // add this object to the renderer:
+        // if (objData.class == Player) {
+        //     ...
+        // }
 
         Object.assign(sprite, options);
+        this.sprites[objData.id] = sprite;
 
         return sprite;
     }

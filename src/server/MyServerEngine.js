@@ -1,24 +1,23 @@
-"use strict";
+'use strict';
 
-const path = require('path');
 const ServerEngine = require('incheon').ServerEngine;
 
-class MyServerEngine extends ServerEngine{
+class MyServerEngine extends ServerEngine {
 
-    constructor(io, gameEngine, inputOptions){
+    constructor(io, gameEngine, inputOptions) {
         super(io, gameEngine, inputOptions);
         this.serializer.registerClass(require('../common/Player'));
     };
 
-    start(){
+    start() {
         super.start();
     };
 
-    onPlayerConnected(socket){
+    onPlayerConnected(socket) {
         super.onPlayerConnected(socket);
     };
 
-    onPlayerDisconnected(socketId, playerId){
+    onPlayerDisconnected(socketId, playerId) {
         super.onPlayerDisconnected(socketId, playerId);
 
         delete this.gameEngine.world.objects[playerId];
