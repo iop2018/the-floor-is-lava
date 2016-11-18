@@ -1,55 +1,103 @@
 const ClientEngine = require('incheon').ClientEngine;
+const Synchronizer = require('incheon').Synchronizer;
+const MyRenderer = require('../client/MyRenderer');
 
-class MyClientEngine extends ClientEngine{
-    constructor(gameEngine, options){
+const GAME_UPS = 60;
+
+class MyClientEngine extends ClientEngine {
+
+    constructor(gameEngine, options) {
         super(gameEngine, options);
+
+        // initialize renderer
+        this.renderer = new MyRenderer();
+        this.gameEngine.renderer = this.renderer;
+
+        // initialize object synchronization
+        const syncOptions = {
+            extrapolate: {
+                localObjBending: 0.0,
+                remoteObjBending: 0.6
+            }
+        };
+        const synchronizer = new Synchronizer(this, syncOptions);
+        synchronizer.extrapolateObjectSelector = () => { return true; };
 
         this.serializer.registerClass(require('../common/Player'));
         this.gameEngine.on('client.preStep', this.preStep.bind(this));
+
+        // keep a reference for key press state
+        this.pressedKeys = {
+            down: false,
+            up: false,
+            left: false,
+            right: false,
+            space: false
+        };
+
+        document.onkeydown = (e) => { onKeyChange.call(this, e, true); };
+        document.onkeyup = (e) => { onKeyChange.call(this, e, false); };
     }
 
     start() {
-        var that = this;
 
         super.start();
+        this.renderer.init();
 
-        //  Game input
-        // TODO: clean up this code it's all phaser stuff
-        //     not relevant in a boilerplate situation
-        this.cursors = game.input.keyboard.createCursorKeys();
-        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        // Simple JS game loop adapted from
+        // http://nokarma.org/2011/02/02/javascript-game-development-the-game-loop/
+        let skipTicks = 1000 / GAME_UPS;
+        let nextGameTick = (new Date).getTime();
 
-        this.sounds = {
-            fireMissile: game.add.audio('fireMissile'),
-            missileHit: game.add.audio('missileHit')
+        let gameLoop = () => {
+            while ((new Date).getTime() > nextGameTick) {
+                this.step();
+                nextGameTick += skipTicks;
+            }
+            requestAnimationFrame(gameLoop);
         };
-
-        this.gameEngine.on("fireMissile", () => { this.sounds.fireMissile.play(); });
-        this.gameEngine.on("missileHit", () => { this.sounds.missileHit.play(); });
+        gameLoop();
     }
 
     // our pre-step is to process all inputs
     preStep() {
 
-        // continuous press
-        if (this.cursors.up.isDown) {
-            this.sendInput('up', { movement: true } );
+        if (this.pressedKeys.up) {
+            this.sendInput('up', { movement: true });
         }
 
-        if (this.cursors.left.isDown) {
+        if (this.pressedKeys.down) {
+            this.sendInput('down', { movement: true });
+        }
+
+        if (this.pressedKeys.left) {
             this.sendInput('left', { movement: true });
         }
 
-        if (this.cursors.right.isDown) {
+        if (this.pressedKeys.right) {
             this.sendInput('right', { movement: true });
         }
 
-        // single press
-        if (this.spaceKey.isDown && this.spaceKey.repeats == 0){
-            this.sendInput('space');
+        if (this.pressedKeys.space) {
+            this.sendInput('space', { movement: true });
         }
     }
 }
 
+function onKeyChange(e, isDown) {
+    e = e || window.event;
+
+    if (e.keyCode == '38') {
+        this.pressedKeys.up = isDown;
+    } else if (e.keyCode == '40') {
+        this.pressedKeys.down = isDown;
+    } else if (e.keyCode == '37') {
+        this.pressedKeys.left = isDown;
+    } else if (e.keyCode == '39') {
+        this.pressedKeys.right = isDown;
+    } else if (e.keyCode == '32') {
+        this.pressedKeys.space = isDown;
+    }
+}
 
 module.exports = MyClientEngine;

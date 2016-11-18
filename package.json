@@ -21,8 +21,8 @@
   },
   "scripts": {
     "start": "node main.js",
-    "postinstall": "browserify src/client/clientMain.js -i nodejs-physijs -o dist/bundle.js -t [ babelify --presets [ es2015 ] ",
-    "watchify": "watchify src/client/clientMain.js -i nodejs-physijs -o dist/bundle.js -v -d -t [ babelify --presets [ es2015 ]"
+    "postinstall": "browserify src/client/clientMain.js -i nodejs-physijs -o dist/bundle.js ",
+    "watchify": "watchify src/client/clientMain.js -i nodejs-physijs -o dist/bundle.js -v -d"
   },
   "repository": {
     "type": "git",
