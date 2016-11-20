@@ -8,7 +8,7 @@ class MyClientEngine extends ClientEngine {
         super(gameEngine, options);
 
         // initialize renderer
-        this.renderer = new MyRenderer();
+        this.renderer = new MyRenderer(gameEngine);
 
         // initialize object synchronization
         const syncOptions = {
