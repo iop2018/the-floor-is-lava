@@ -11,7 +11,6 @@ class MyClientEngine extends ClientEngine {
 
         // initialize renderer
         this.renderer = new MyRenderer();
-        this.gameEngine.renderer = this.renderer;
 
         // initialize object synchronization
         const syncOptions = {
@@ -37,26 +36,6 @@ class MyClientEngine extends ClientEngine {
 
         document.onkeydown = (e) => { onKeyChange.call(this, e, true); };
         document.onkeyup = (e) => { onKeyChange.call(this, e, false); };
-    }
-
-    start() {
-
-        super.start();
-        this.renderer.init();
-
-        // Simple JS game loop adapted from
-        // http://nokarma.org/2011/02/02/javascript-game-development-the-game-loop/
-        let skipTicks = 1000 / GAME_UPS;
-        let nextGameTick = (new Date).getTime();
-
-        let gameLoop = () => {
-            while ((new Date).getTime() > nextGameTick) {
-                this.step();
-                nextGameTick += skipTicks;
-            }
-            requestAnimationFrame(gameLoop);
-        };
-        gameLoop();
     }
 
     // our pre-step is to process all inputs
