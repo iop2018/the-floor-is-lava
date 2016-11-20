@@ -2,8 +2,6 @@ const ClientEngine = require('incheon').ClientEngine;
 const Synchronizer = require('incheon').Synchronizer;
 const MyRenderer = require('../client/MyRenderer');
 
-const GAME_UPS = 60;
-
 class MyClientEngine extends ClientEngine {
 
     constructor(gameEngine, options) {
