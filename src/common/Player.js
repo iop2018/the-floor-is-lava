@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const DynamicObject= require('incheon').serialize.DynamicObject;
 
@@ -9,7 +9,7 @@ class Player extends DynamicObject {
     }
 
     static newFrom(sourceObj) {
-        var newPlayer = new Player();
+        let newPlayer = new Player();
         newPlayer.copyFrom(sourceObj);
 
         return newPlayer;
