@@ -6,7 +6,7 @@ class MyServerEngine extends ServerEngine {
 
     constructor(io, gameEngine, inputOptions) {
         super(io, gameEngine, inputOptions);
-        this.serializer.registerClass(require('../common/Player'));
+        this.serializer.registerClass(require('../common/PlayerAvatar'));
     };
 
     start() {

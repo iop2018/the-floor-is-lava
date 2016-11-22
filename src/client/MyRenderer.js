@@ -7,13 +7,6 @@ class MyRenderer extends Renderer {
     constructor() {
         super();
         this.sprites = {};
-
-        // TODO: the world settings are really a property of the GameEngine.
-        //       but they are currently used by interpolate function of DynamicObject.
-        this.worldSettings = {
-            width: 800,
-            height: 600
-        };
     }
 
     init() {
@@ -27,7 +20,7 @@ class MyRenderer extends Renderer {
         let sprite = {};
 
         // add this object to the renderer:
-        // if (objData.class == Player) {
+        // if (objData.class == PlayerAvatar) {
         //     ...
         // }
 

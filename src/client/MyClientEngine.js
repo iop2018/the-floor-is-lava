@@ -20,7 +20,7 @@ class MyClientEngine extends ClientEngine {
         const synchronizer = new Synchronizer(this, syncOptions);
         synchronizer.extrapolateObjectSelector = () => { return true; };
 
-        this.serializer.registerClass(require('../common/Player'));
+        this.serializer.registerClass(require('../common/PlayerAvatar'));
         this.gameEngine.on('client.preStep', this.preStep.bind(this));
 
         // keep a reference for key press state
