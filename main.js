@@ -19,7 +19,7 @@ const MyServerEngine = require(path.join(__dirname, 'src/server/MyServerEngine.j
 const MyGameEngine = require(path.join(__dirname, 'src/common/MyGameEngine.js'));
 
 // Game Instances
-const gameEngine = new MyGameEngine({ traceLevel: 1, isServer: true });
+const gameEngine = new MyGameEngine({ traceLevel: 1 });
 const serverEngine = new MyServerEngine(io, gameEngine, { debug: {} });
 
 // start the game
