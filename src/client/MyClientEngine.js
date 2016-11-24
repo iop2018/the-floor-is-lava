@@ -1,5 +1,4 @@
 const ClientEngine = require('incheon').ClientEngine;
-const Synchronizer = require('incheon').Synchronizer;
 const MyRenderer = require('../client/MyRenderer');
 
 class MyClientEngine extends ClientEngine {
@@ -9,17 +8,6 @@ class MyClientEngine extends ClientEngine {
 
         // initialize renderer
         this.renderer = new MyRenderer(gameEngine);
-
-        // initialize object synchronization
-        const syncOptions = {
-            extrapolate: {
-                localObjBending: 0.0,
-                remoteObjBending: 0.6
-            }
-        };
-        const synchronizer = new Synchronizer(this, syncOptions);
-        synchronizer.extrapolateObjectSelector = () => { return true; };
-
         this.serializer.registerClass(require('../common/PlayerAvatar'));
         this.gameEngine.on('client.preStep', this.preStep.bind(this));
 
