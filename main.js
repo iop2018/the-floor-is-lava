@@ -17,9 +17,11 @@ const io = socketIO(requestHandler);
 // Game Server
 const MyServerEngine = require(path.join(__dirname, 'src/server/MyServerEngine.js'));
 const MyGameEngine = require(path.join(__dirname, 'src/common/MyGameEngine.js'));
+const SimplePhysicsEngine = require('incheon').physics.SimplePhysicsEngine;
 
 // Game Instances
-const gameEngine = new MyGameEngine({ traceLevel: 1 });
+const physicsEngine = new SimplePhysicsEngine();
+const gameEngine = new MyGameEngine({ physicsEngine, traceLevel: 1 });
 const serverEngine = new MyServerEngine(io, gameEngine, { debug: {} });
 
 // start the game

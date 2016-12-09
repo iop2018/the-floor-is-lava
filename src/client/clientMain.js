@@ -1,6 +1,7 @@
 const qsOptions = require('query-string').parse(location.search);
 const MyClientEngine = require('../client/MyClientEngine');
 const MyGameEngine = require('../common/MyGameEngine');
+const SimplePhysicsEngine = require('incheon').physics.SimplePhysicsEngine;
 
 
 // default options, overwritten by query-string options
@@ -18,7 +19,8 @@ const defaults = {
 let options = Object.assign(defaults, qsOptions);
 
 // create a client engine and a game engine
-const gameOptions = Object.assign({}, options);
+const physicsEngine = new SimplePhysicsEngine();
+const gameOptions = Object.assign({ physicsEngine }, options);
 const gameEngine = new MyGameEngine(gameOptions);
 const clientEngine = new MyClientEngine(gameEngine, options);
 
