@@ -20,8 +20,9 @@ class MyClientEngine extends ClientEngine {
             space: false
         };
 
-        document.onkeydown = (e) => { onKeyChange.call(this, e, true); };
-        document.onkeyup = (e) => { onKeyChange.call(this, e, false); };
+        let that = this;
+        document.onkeydown = (e) => { that.onKeyChange(e, true); };
+        document.onkeyup = (e) => { that.onKeyChange(e, false); };
     }
 
     // our pre-step is to process all inputs
@@ -47,22 +48,24 @@ class MyClientEngine extends ClientEngine {
             this.sendInput('space', { movement: true });
         }
     }
-}
 
-function onKeyChange(e, isDown) {
-    e = e || window.event;
+    onKeyChange(e, isDown) {
+        e = e || window.event;
 
-    if (e.keyCode == '38') {
-        this.pressedKeys.up = isDown;
-    } else if (e.keyCode == '40') {
-        this.pressedKeys.down = isDown;
-    } else if (e.keyCode == '37') {
-        this.pressedKeys.left = isDown;
-    } else if (e.keyCode == '39') {
-        this.pressedKeys.right = isDown;
-    } else if (e.keyCode == '32') {
-        this.pressedKeys.space = isDown;
+        if (e.keyCode == '38') {
+            this.pressedKeys.up = isDown;
+        } else if (e.keyCode == '40') {
+            this.pressedKeys.down = isDown;
+        } else if (e.keyCode == '37') {
+            this.pressedKeys.left = isDown;
+        } else if (e.keyCode == '39') {
+            this.pressedKeys.right = isDown;
+        } else if (e.keyCode == '32') {
+            this.pressedKeys.space = isDown;
+        }
     }
 }
+
+
 
 module.exports = MyClientEngine;
