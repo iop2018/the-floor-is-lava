@@ -22,7 +22,7 @@ const SimplePhysicsEngine = require('incheon').physics.SimplePhysicsEngine;
 // Game Instances
 const physicsEngine = new SimplePhysicsEngine();
 const gameEngine = new MyGameEngine({ physicsEngine, traceLevel: 1 });
-const serverEngine = new MyServerEngine(io, gameEngine, { debug: {} });
+const serverEngine = new MyServerEngine(io, gameEngine, { debug: {}, updateRate: 6 });
 
 // start the game
 serverEngine.start();
