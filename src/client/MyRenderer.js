@@ -4,8 +4,8 @@ const Renderer = require('incheon').render.Renderer;
 
 class MyRenderer extends Renderer {
 
-    constructor() {
-        super();
+    constructor(gameEngine, clientEngine) {
+        super(gameEngine, clientEngine);
         this.sprites = {};
     }
 
