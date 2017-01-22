@@ -9,9 +9,6 @@ class MyRenderer extends Renderer {
         this.sprites = {};
     }
 
-    init() {
-    }
-
     draw() {
         super.draw();
     }
