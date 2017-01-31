@@ -1,3 +1,5 @@
 node_modules
 dist/bundle.js
 .idea/*
+yarn.lock
+*.trace
