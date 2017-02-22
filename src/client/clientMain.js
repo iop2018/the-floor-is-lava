@@ -14,7 +14,7 @@ const defaults = {
         sync: qsOptions.sync || 'extrapolate',
         localObjBending: 0.0,
         remoteObjBending: 0.8,
-        bendingIncrements: 6
+        bendingIncrements: 3
     }
 };
 let options = Object.assign(defaults, qsOptions);

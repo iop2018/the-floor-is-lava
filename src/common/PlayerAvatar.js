@@ -8,8 +8,8 @@ class PlayerAvatar extends DynamicObject {
         return Object.assign({}, super.netScheme);
     }
 
-    constructor(id, x, y) {
-        super(id, x, y);
+    constructor(id, position, velocity) {
+        super(id, position, velocity);
         this.class = PlayerAvatar;
     };
 }

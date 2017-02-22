@@ -4,10 +4,8 @@ const MyRenderer = require('../client/MyRenderer');
 class MyClientEngine extends ClientEngine {
 
     constructor(gameEngine, options) {
-        super(gameEngine, options);
+        super(gameEngine, options, MyRenderer);
 
-        // initialize renderer
-        this.renderer = new MyRenderer(gameEngine);
         this.serializer.registerClass(require('../common/PlayerAvatar'));
         this.gameEngine.on('client.preStep', this.preStep.bind(this));
 
@@ -65,7 +63,5 @@ class MyClientEngine extends ClientEngine {
         }
     }
 }
-
-
 
 module.exports = MyClientEngine;
