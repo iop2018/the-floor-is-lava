@@ -22,15 +22,8 @@ class MyGameEngine extends GameEngine {
 
         super.processInput(inputData, playerId);
 
-        // get the player tied to the player socket
-        let player;
-        for (let objId in this.world.objects) {
-            if (this.world.objects[objId].playerId == playerId) {
-                player = this.world.objects[objId];
-                break;
-            }
-        }
-
+        // get the player's primary object
+        let player = this.world.getPlayerObject(playerId);
         if (player) {
             console.log(`player ${playerId} pressed ${inputData.input}`);
             if (inputData.input === 'up') {
