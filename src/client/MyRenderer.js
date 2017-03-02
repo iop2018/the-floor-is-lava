@@ -28,7 +28,6 @@ class MyRenderer extends Renderer {
     }
 
     removeObject(obj) {
-        obj.destroy();
         delete this.sprites[obj.id];
     }
 
