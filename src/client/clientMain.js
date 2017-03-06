@@ -19,9 +19,11 @@ const defaults = {
 };
 let options = Object.assign(defaults, qsOptions);
 
+// extrapolate mode requires a physics engine on the client
+if (options.syncOptions.sync === 'extrapolate')
+    options.physicsEngine = new SimplePhysicsEngine();
+
 // create a client engine and a game engine
-const physicsEngine = new SimplePhysicsEngine();
-const gameOptions = Object.assign({ physicsEngine }, options);
 const gameEngine = new MyGameEngine(gameOptions);
 const clientEngine = new MyClientEngine(gameEngine, options);
 
