@@ -1,6 +1,6 @@
 {
   "name": "incheon-game",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "node": "4.3.0"
   },
@@ -9,7 +9,7 @@
   "dependencies": {
     "browserify": "^13.0.1",
     "express": "^4.14.0",
-    "incheon": "0.9.3",
+    "incheon": "1.0.0",
     "query-string": "^4.2.3",
     "socket.io": "^1.4.8"
   },
