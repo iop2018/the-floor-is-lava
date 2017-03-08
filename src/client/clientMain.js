@@ -24,7 +24,7 @@ if (options.syncOptions.sync === 'extrapolate')
     options.physicsEngine = new SimplePhysicsEngine();
 
 // create a client engine and a game engine
-const gameEngine = new MyGameEngine(gameOptions);
+const gameEngine = new MyGameEngine(options);
 const clientEngine = new MyClientEngine(gameEngine, options);
 
 document.addEventListener('DOMContentLoaded', function(e) { clientEngine.start(); });
