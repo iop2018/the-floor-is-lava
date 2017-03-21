@@ -1,6 +1,6 @@
 'use strict';
 
-const DynamicObject= require('incheon').serialize.DynamicObject;
+const DynamicObject= require('lance-gg').serialize.DynamicObject;
 
 class PlayerAvatar extends DynamicObject {
 

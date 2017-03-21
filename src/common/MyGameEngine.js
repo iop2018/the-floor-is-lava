@@ -1,6 +1,6 @@
 'use strict';
 
-const GameEngine = require('incheon').GameEngine;
+const GameEngine = require('lance-gg').GameEngine;
 
 class MyGameEngine extends GameEngine {
 

@@ -1,15 +1,15 @@
 {
-  "name": "incheon-game",
+  "name": "lance-game",
   "version": "1.0.0",
   "engines": {
     "node": "4.3.0"
   },
-  "description": "An HTML5 multiplayer game based on Incheon",
+  "description": "An HTML5 multiplayer game based on Lance",
   "main": "main.js",
   "dependencies": {
     "browserify": "^13.0.1",
     "express": "^4.14.0",
-    "incheon": "1.0.0",
+    "lance-gg": "~1.0.0",
     "query-string": "^4.2.3",
     "socket.io": "^1.4.8"
   },
@@ -34,7 +34,8 @@
   },
   "keywords": [
     "game",
-    "incheon",
+    "lance",
+    "lance-gg",
     "multiplayer",
     "websockets"
   ],

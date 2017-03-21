@@ -1,6 +1,6 @@
 'use strict';
 
-const ServerEngine = require('incheon').ServerEngine;
+const ServerEngine = require('lance-gg').ServerEngine;
 
 class MyServerEngine extends ServerEngine {
 

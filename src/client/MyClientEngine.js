@@ -1,4 +1,4 @@
-const ClientEngine = require('incheon').ClientEngine;
+const ClientEngine = require('lance-gg').ClientEngine;
 const MyRenderer = require('../client/MyRenderer');
 
 class MyClientEngine extends ClientEngine {

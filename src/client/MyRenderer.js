@@ -1,6 +1,6 @@
 'use strict';
 
-const Renderer = require('incheon').render.Renderer;
+const Renderer = require('lance-gg').render.Renderer;
 
 class MyRenderer extends Renderer {
 
