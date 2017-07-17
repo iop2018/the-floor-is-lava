@@ -9,7 +9,7 @@
   "dependencies": {
     "browserify": "^13.0.1",
     "express": "^4.14.0",
-    "lance-gg": "1.0.1",
+    "lance-gg": "~1.0.0",
     "query-string": "^4.2.3",
     "socket.io": "^1.4.8"
   },
