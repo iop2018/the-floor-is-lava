@@ -2,7 +2,7 @@
   "name": "lance-game",
   "version": "1.0.0",
   "engines": {
-    "node": "4.3.0"
+    "node": "6.11.1"
   },
   "description": "An HTML5 multiplayer game based on Lance",
   "main": "main.js",
