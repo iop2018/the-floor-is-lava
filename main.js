@@ -16,7 +16,7 @@ const io = socketIO(requestHandler);
 
 // Game Server
 import MyServerEngine from './src/server/MyServerEngine';
-import MyGameEngine from './src/common/MyGameEngine.js';
+import MyGameEngine from './src/common/MyGameEngine';
 import Trace from 'lance/lib/Trace';
 
 // Game Instances

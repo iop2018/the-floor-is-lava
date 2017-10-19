@@ -6,7 +6,6 @@ export default class MyClientEngine extends ClientEngine {
     constructor(gameEngine, options) {
         super(gameEngine, options, MyRenderer);
 
-        this.serializer.registerClass(require('../common/PlayerAvatar'));
         this.gameEngine.on('client__preStep', this.preStep.bind(this));
 
         // keep a reference for key press state
