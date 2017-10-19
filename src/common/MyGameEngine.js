@@ -1,11 +1,13 @@
 'use strict';
 
-const GameEngine = require('lance-gg').GameEngine;
+import GameEngine from 'lance/GameEngine';
+import SimplePhysicsEngine from 'lance/physics/SimplePhysicsEngine';
 
-class MyGameEngine extends GameEngine {
+export default class MyGameEngine extends GameEngine {
 
     constructor(options) {
         super(options);
+        this.physicsEngine = new SimplePhysicsEngine({ gameEngine: this });
     }
 
     start() {
@@ -41,5 +43,3 @@ class MyGameEngine extends GameEngine {
         }
     }
 }
-
-module.exports = MyGameEngine;

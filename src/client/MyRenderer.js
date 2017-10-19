@@ -1,8 +1,8 @@
 'use strict';
 
-const Renderer = require('lance-gg').render.Renderer;
+import Renderer from 'lance/render/Renderer';
 
-class MyRenderer extends Renderer {
+export default class MyRenderer extends Renderer {
 
     constructor(gameEngine, clientEngine) {
         super(gameEngine, clientEngine);
@@ -14,5 +14,3 @@ class MyRenderer extends Renderer {
     }
 
 }
-
-module.exports = MyRenderer;

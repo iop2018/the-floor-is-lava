@@ -1,7 +1,7 @@
-const ClientEngine = require('lance-gg').ClientEngine;
-const MyRenderer = require('../client/MyRenderer');
+import ClientEngine from 'lance/ClientEngine';
+import MyRenderer from '../client/MyRenderer';
 
-class MyClientEngine extends ClientEngine {
+export default class MyClientEngine extends ClientEngine {
 
     constructor(gameEngine, options) {
         super(gameEngine, options, MyRenderer);
@@ -63,5 +63,3 @@ class MyClientEngine extends ClientEngine {
         }
     }
 }
-
-module.exports = MyClientEngine;

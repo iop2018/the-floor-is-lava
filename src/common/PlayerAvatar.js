@@ -1,6 +1,6 @@
 'use strict';
 
-const DynamicObject= require('lance-gg').serialize.DynamicObject;
+import DynamicObject from 'lance/serialize/DynamicObject';
 
 class PlayerAvatar extends DynamicObject {
 
@@ -8,8 +8,8 @@ class PlayerAvatar extends DynamicObject {
         return Object.assign({}, super.netScheme);
     }
 
-    constructor(id, position, velocity) {
-        super(id, position, velocity);
+    constructor(gameEngine, options, props) {
+        super(gameEngine, options, props);
         this.class = PlayerAvatar;
     };
 }

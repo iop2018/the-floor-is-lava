@@ -1,8 +1,8 @@
 'use strict';
 
-const express = require('express');
-const socketIO = require('socket.io');
-const path = require('path');
+import express from 'express';
+import socketIO from 'socket.io';
+import path from 'path';
 
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, './index.html');
@@ -15,13 +15,12 @@ let requestHandler = server.listen(PORT, () => console.log(`Listening on ${ PORT
 const io = socketIO(requestHandler);
 
 // Game Server
-const MyServerEngine = require(path.join(__dirname, 'src/server/MyServerEngine.js'));
-const MyGameEngine = require(path.join(__dirname, 'src/common/MyGameEngine.js'));
-const SimplePhysicsEngine = require('lance-gg').physics.SimplePhysicsEngine;
+import MyServerEngine from './src/server/MyServerEngine';
+import MyGameEngine from './src/common/MyGameEngine.js';
+import Trace from 'lance/lib/Trace';
 
 // Game Instances
-const physicsEngine = new SimplePhysicsEngine();
-const gameEngine = new MyGameEngine({ physicsEngine, traceLevel: 1 });
+const gameEngine = new MyGameEngine({ traceLevel: Trace.TRACE_NONE });
 const serverEngine = new MyServerEngine(io, gameEngine, { debug: {}, updateRate: 6 });
 
 // start the game
