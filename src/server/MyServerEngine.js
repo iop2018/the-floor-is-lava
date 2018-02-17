@@ -7,7 +7,6 @@ export default class MyServerEngine extends ServerEngine {
 
     constructor(io, gameEngine, inputOptions) {
         super(io, gameEngine, inputOptions);
-        this.serializer.registerClass(PlayerAvatar);
     }
 
     start() {

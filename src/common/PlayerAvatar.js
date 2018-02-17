@@ -2,10 +2,12 @@
 
 import DynamicObject from 'lance/serialize/DynamicObject';
 
-class PlayerAvatar extends DynamicObject {
+export default class PlayerAvatar extends DynamicObject {
 
     static get netScheme() {
-        return Object.assign({}, super.netScheme);
+        return Object.assign({
+            // add serializable properties here
+        }, super.netScheme);
     }
 
     constructor(gameEngine, options, props) {
@@ -13,5 +15,3 @@ class PlayerAvatar extends DynamicObject {
         this.class = PlayerAvatar;
     };
 }
-
-module.exports = PlayerAvatar;

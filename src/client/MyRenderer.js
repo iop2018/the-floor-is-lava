@@ -9,8 +9,8 @@ export default class MyRenderer extends Renderer {
         this.sprites = {};
     }
 
-    draw() {
-        super.draw();
+    draw(t, dt) {
+        super.draw(t, dt);
     }
 
 }

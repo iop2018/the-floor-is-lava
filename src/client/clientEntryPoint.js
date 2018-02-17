@@ -8,6 +8,7 @@ const qsOptions = querystring.parse(location.search);
 const defaults = {
     traceLevel: 1,
     delayInputCount: 3,
+    scheduler: 'render-schedule',
     syncOptions: {
         sync: qsOptions.sync || 'extrapolate',
         localObjBending: 0.0,

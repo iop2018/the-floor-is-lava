@@ -2,12 +2,17 @@
 
 import GameEngine from 'lance/GameEngine';
 import SimplePhysicsEngine from 'lance/physics/SimplePhysicsEngine';
+import PlayerAvatar from './PlayerAvatar';
 
 export default class MyGameEngine extends GameEngine {
 
     constructor(options) {
         super(options);
         this.physicsEngine = new SimplePhysicsEngine({ gameEngine: this });
+    }
+
+    registerClasses(serializer) {
+        serializer.registerClass(PlayerAvatar);
     }
 
     start() {
