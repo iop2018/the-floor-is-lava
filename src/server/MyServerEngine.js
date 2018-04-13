@@ -1,7 +1,8 @@
 'use strict';
 
 import ServerEngine from 'lance/ServerEngine';
-import PlayerAvatar from '../common/PlayerAvatar';
+import TwoVector from 'lance/serialize/TwoVector';
+import Player from '../common/Player';
 
 export default class MyServerEngine extends ServerEngine {
 
@@ -11,15 +12,24 @@ export default class MyServerEngine extends ServerEngine {
 
     start() {
         super.start();
+
+        this.gameEngine.initGame();
+
+        this.player = null;
     }
 
     onPlayerConnected(socket) {
         super.onPlayerConnected(socket);
+
+        this.player = socket.id;
+        this.gameEngine.addObjectToWorld(new Player(this.gameEngine, null, { position: new TwoVector(20, 20), playerId: socket.playerId, friction: 0.7 }));
+
     }
 
     onPlayerDisconnected(socketId, playerId) {
         super.onPlayerDisconnected(socketId, playerId);
 
-        delete this.gameEngine.world.objects[playerId];
+        this.player = null;
+        console.log('Disconnected');
     }
 }
