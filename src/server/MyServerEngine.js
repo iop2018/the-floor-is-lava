@@ -14,22 +14,24 @@ export default class MyServerEngine extends ServerEngine {
         super.start();
 
         this.gameEngine.initGame();
-
-        this.player = null;
+        this.playerAvatars = {};
     }
 
     onPlayerConnected(socket) {
         super.onPlayerConnected(socket);
 
-        this.player = socket.id;
-        this.gameEngine.addObjectToWorld(new Player(this.gameEngine, null, { position: new TwoVector(20, 20), playerId: socket.playerId, friction: 0.7 }));
+        let playerObj = new Player(this.gameEngine, null, { position: new TwoVector(20, 20), playerId: socket.playerId, friction: 0.7 });
+        playerObj.playerId = socket.playerId;
+        this.playerAvatars[socket.playerId] = playerObj;
+        this.gameEngine.addObjectToWorld(playerObj);
 
     }
 
     onPlayerDisconnected(socketId, playerId) {
         super.onPlayerDisconnected(socketId, playerId);
 
-        this.player = null;
-        console.log('Disconnected');
+        let playerObj = this.playerAvatars[playerId];
+        this.gameEngine.removeObjectFromWorld(playerObj);
+        delete this.playerAvatars[playerId];
     }
 }
