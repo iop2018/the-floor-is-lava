@@ -18,6 +18,8 @@ export default class Player extends DynamicObject {
         if (props && props.playerId)
             this.playerId = props.playerId;
         this.class = Player;
+        this.width = 25;
+        this.height = 25;
     };
 
     // onAddToWorld(gameEngine) {
