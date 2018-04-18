@@ -18,8 +18,13 @@ const defaults = {
 };
 let options = Object.assign(defaults, qsOptions);
 
-// create a client engine and a game engine
-const gameEngine = new MyGameEngine(options);
-const clientEngine = new MyClientEngine(gameEngine, options);
 
-document.addEventListener('DOMContentLoaded', function(e) { clientEngine.start(); });
+
+window.addEventListener('load', function(e) {
+    console.log('CEP: DOMContentLoaded');
+    // create a client engine and a game engine
+    const gameEngine = new MyGameEngine(options);
+    const clientEngine = new MyClientEngine(gameEngine, options);
+    console.log('CEP: gae start');
+    clientEngine.start();
+});

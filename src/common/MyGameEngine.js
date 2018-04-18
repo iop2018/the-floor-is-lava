@@ -42,7 +42,7 @@ export default class MyGameEngine extends GameEngine {
         super.processInput(inputData, playerId);
 
         // get the player's primary object
-        let player = this.world.queryObject({ playerId });
+        let player = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
         if (player) {
             console.log(`player ${playerId} pressed ${inputData.input}`);
 
@@ -59,6 +59,8 @@ export default class MyGameEngine extends GameEngine {
             case 'right':
                 player.velocity.add(new TwoVector(SPEED, 0));
                 break;
+            case 'space':
+                player.velocity.set(0,0,0);
             }
         }
     }

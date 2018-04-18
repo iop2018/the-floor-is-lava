@@ -19,9 +19,9 @@ export default class Player extends DynamicObject {
         this.class = Player;
     };
 
-    onAddToWorld(gameEngine) {
-        if (gameEngine && gameEngine.renderer) {
-            gameEngine.renderer.addSprite(this, 'player');
-        }
-    }
+    // onAddToWorld(gameEngine) {
+    //     if (gameEngine && gameEngine.renderer) {
+    //         gameEngine.renderer.addSprite(this, 'player');
+    //     }
+    // }
 }
