@@ -50,7 +50,7 @@ export default class MyGameEngine extends GameEngine {
         super.processInput(inputData, playerId, isServer);
 
         // get the player's primary object
-        let player = this.world.queryObject({ playerId });
+        let player = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
         if (player) {
             console.log(`player ${playerId} with id=${player.id} pressed ${inputData.input}`);
 
