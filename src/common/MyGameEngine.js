@@ -4,6 +4,7 @@ import GameEngine from 'lance/GameEngine';
 import SimplePhysicsEngine from 'lance/physics/SimplePhysicsEngine';
 import TwoVector from 'lance/serialize/TwoVector';
 import Player from './Player';
+import { config } from './Parameters';
 
 const SPEED = 1;
 
@@ -11,40 +12,36 @@ export default class MyGameEngine extends GameEngine {
 
     constructor(options) {
         super(options);
-        this.physicsEngine = new SimplePhysicsEngine({gameEngine: this});
-        this.player = null;
+        this.physicsEngine = new SimplePhysicsEngine({ gameEngine: this });
+        this.playerStats = {};
     }
 
     registerClasses(serializer) {
         serializer.registerClass(Player);
     }
 
-    start() {
-        super.start();
-
-        // this.worldSettings = {
-        //     width: 400,
-        //     height: 400
-        // };
-
-        // this.on('postStep', () => {
-        //     this.postStepHandler();
-        // })
-
-        this.on('objectAdded', (object) => {
-            if (object.class === Player) {
-                this.player = object;
-            }
-        });
+    addPlayer(playerId) {
+        this.playerStats[playerId] = { stepsTaken: 0 };  // just some example
+        this.addObjectToWorld(new Player(
+            this,
+            null,
+            { position: new TwoVector(20, 20), playerId, friction: config.player.friction }
+        ));
     }
 
-    processInput(inputData, playerId) {
-        super.processInput(inputData, playerId);
+    removePlayer(playerId) {
+        this.removeObjectFromWorld(this.playerStats[playerId].id);
+        return 0;
+    }
+
+    processInput(inputData, playerId, isServer) {
+        super.processInput(inputData, playerId, isServer);
 
         // get the player's primary object
         let player = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
         if (player) {
-            console.log(`player ${playerId} pressed ${inputData.input}`);
+            this.playerStats[player.id].stepsTaken += 1;
+            console.log(`player ${playerId} with id=${player.id} pressed ${inputData.input}`);
 
             switch (inputData.input) {
             case 'up':
@@ -60,11 +57,9 @@ export default class MyGameEngine extends GameEngine {
                 player.velocity.add(new TwoVector(SPEED, 0));
                 break;
             case 'space':
-                player.velocity.set(0,0,0);
+                player.velocity = (new TwoVector(0, 0));
+                break;
             }
         }
-    }
-
-    initGame() {
     }
 }
