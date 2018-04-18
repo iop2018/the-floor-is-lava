@@ -21,7 +21,7 @@ import Trace from 'lance/lib/Trace';
 
 // Game Instances
 const gameEngine = new MyGameEngine({ traceLevel: Trace.TRACE_NONE });
-const serverEngine = new MyServerEngine(io, gameEngine, { debug: {}, updateRate: 6 });
+const serverEngine = new MyServerEngine(io, gameEngine, { debug: {}, updateRate: 6, timeoutInterval: 0 });
 
 // start the game
 serverEngine.start();
