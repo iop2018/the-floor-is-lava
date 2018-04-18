@@ -11,8 +11,6 @@ export default class MyServerEngine extends ServerEngine {
     start() {
         super.start();
 
-        this.gameEngine.initGame();
-
         this.players = {};
         this.slots = [1, 2, 3, 4, 5];
     }
@@ -28,6 +26,7 @@ export default class MyServerEngine extends ServerEngine {
     onPlayerDisconnected(socketId, playerId) {
         super.onPlayerDisconnected(socketId, playerId);
 
+        this.gameEngine.removePlayer(playerId);
         this.slots.push(this.players[socketId]);
         delete this.players[socketId];
         console.log('Disconnected');

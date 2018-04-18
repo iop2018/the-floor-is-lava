@@ -37,14 +37,24 @@ export default class MyRenderer extends Renderer {
         if (objName === 'player') {
             objName += obj.playerId;
 
-            const spriteDivEl = document.querySelector('.' + objName);
-            spriteDivEl.style.visibility = 'visible';
-            spriteDivEl.style.background = getRandomColor();
-            spriteDivEl.style.width = '50px';
+            const spriteDiv = document.querySelector('.' + objName);
+            Object.assign(spriteDiv.style, {
+                visibility: 'visible',
+                background: getRandomColor(),
+                width: '40px',
+            });
 
             this.sprites[obj.id] = {
-                el: spriteDivEl,
+                el: spriteDiv,
             };
         }
+    }
+
+
+    removeObject(obj) {
+        super.removeObject(obj);
+
+        this.sprites[obj.id].el.style.visibility = 'hidden';
+        delete this.sprites[obj.id];
     }
 }

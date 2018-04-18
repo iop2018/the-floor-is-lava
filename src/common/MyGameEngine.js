@@ -30,7 +30,8 @@ export default class MyGameEngine extends GameEngine {
 
         // this.on('postStep', () => {
         //     this.postStepHandler();
-        // })
+        // });
+    }
 
     addPlayer(playerId) {
         this.players[playerId] = this.addObjectToWorld(new Player(
@@ -41,7 +42,7 @@ export default class MyGameEngine extends GameEngine {
     }
 
     removePlayer(playerId) {
-        this.removeObjectFromWorld(this.players[playerId]);
+        this.removeObjectFromWorld(this.players[playerId].id);
         return 0;
     }
 

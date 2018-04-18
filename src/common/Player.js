@@ -10,8 +10,8 @@ export default class Player extends DynamicObject {
         }, super.netScheme);
     }
 
-    get bendingMultiple() { return 0.8; }
-    get bendingVelocityMultiple() { return 0.7; }
+    get bendingMultiple() { return 0.5; }
+    get bendingVelocityMultiple() { return 0; }
 
     constructor(gameEngine, options, props) {
         super(gameEngine, options, props);
