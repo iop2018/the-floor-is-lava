@@ -18,8 +18,6 @@ const defaults = {
 };
 let options = Object.assign(defaults, qsOptions);
 
-
-
 window.addEventListener('load', function(e) {
     console.log('CEP: DOMContentLoaded');
     // create a client engine and a game engine
