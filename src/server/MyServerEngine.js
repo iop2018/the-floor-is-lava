@@ -10,14 +10,11 @@ export default class MyServerEngine extends ServerEngine {
 
     start() {
         super.start();
-
-        this.players = {};
     }
 
     onPlayerConnected(socket) {
         super.onPlayerConnected(socket);
 
-        this.players[socket.playerId] = socket.id;
         this.gameEngine.addPlayer(socket.playerId);
     }
 
@@ -25,7 +22,6 @@ export default class MyServerEngine extends ServerEngine {
         super.onPlayerDisconnected(socketId, playerId);
 
         this.gameEngine.removePlayer(playerId);
-        delete this.players[playerId];
         console.log('Disconnected');
     }
 }

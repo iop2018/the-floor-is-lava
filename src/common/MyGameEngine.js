@@ -13,28 +13,16 @@ export default class MyGameEngine extends GameEngine {
     constructor(options) {
         super(options);
         this.physicsEngine = new SimplePhysicsEngine({ gameEngine: this });
-        this.players = {};
+        this.playerStats = {};
     }
 
     registerClasses(serializer) {
         serializer.registerClass(Player);
     }
 
-    start() {
-        super.start();
-
-        // this.worldSettings = {
-        //     width: 400,
-        //     height: 400
-        // };
-
-        // this.on('postStep', () => {
-        //     this.postStepHandler();
-        // });
-    }
-
     addPlayer(playerId) {
-        this.players[playerId] = this.addObjectToWorld(new Player(
+        this.playerStats[playerId] = { stepsTaken: 0 };  // just some example
+        this.addObjectToWorld(new Player(
             this,
             null,
             { position: new TwoVector(20, 20), playerId, friction: config.player.friction }
@@ -42,7 +30,7 @@ export default class MyGameEngine extends GameEngine {
     }
 
     removePlayer(playerId) {
-        this.removeObjectFromWorld(this.players[playerId].id);
+        this.removeObjectFromWorld(this.playerStats[playerId].id);
         return 0;
     }
 
@@ -52,6 +40,7 @@ export default class MyGameEngine extends GameEngine {
         // get the player's primary object
         let player = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
         if (player) {
+            this.playerStats[player.id].stepsTaken += 1;
             console.log(`player ${playerId} with id=${player.id} pressed ${inputData.input}`);
 
             switch (inputData.input) {
