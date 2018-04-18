@@ -1,8 +1,6 @@
 'use strict';
 
 import ServerEngine from 'lance/ServerEngine';
-import TwoVector from 'lance/serialize/TwoVector';
-import Player from '../common/Player';
 
 export default class MyServerEngine extends ServerEngine {
 
@@ -15,21 +13,23 @@ export default class MyServerEngine extends ServerEngine {
 
         this.gameEngine.initGame();
 
-        this.player = null;
+        this.players = {};
+        this.slots = [1, 2, 3, 4, 5];
     }
 
     onPlayerConnected(socket) {
         super.onPlayerConnected(socket);
 
-        this.player = socket.id;
-        this.gameEngine.addObjectToWorld(new Player(this.gameEngine, null, { position: new TwoVector(20, 20), playerId: socket.playerId, friction: 0.7 }));
-
+        if (this.slots.length < 1) console.error('Too many players');
+        this.players[socket.id] = this.slots.pop();
+        this.gameEngine.addPlayer(socket.playerId);
     }
 
     onPlayerDisconnected(socketId, playerId) {
         super.onPlayerDisconnected(socketId, playerId);
 
-        this.player = null;
+        this.slots.push(this.players[socketId]);
+        delete this.players[socketId];
         console.log('Disconnected');
     }
 }
