@@ -24,8 +24,8 @@ export default class MyRenderer extends Renderer {
         super(gameEngine, clientEngine);
 
         this.sprites = new Map();
-        document.sprites = this.sprites;
         this.canvasDiv = document.getElementById('gameArea');
+        document.renderer = this;
         this.stage = new PIXI.Container();
         this.canvasW = this.canvasDiv.offsetWidth;
         this.canvasH = this.canvasDiv.offsetHeight;
