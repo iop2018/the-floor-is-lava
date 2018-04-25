@@ -24,5 +24,5 @@ window.addEventListener('load', function(e) {
     const gameEngine = new MyGameEngine(options);
     const clientEngine = new MyClientEngine(gameEngine, options);
     console.log('CEP: gae start');
-    clientEngine.start();
+    return clientEngine.start();
 });
