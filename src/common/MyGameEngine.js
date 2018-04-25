@@ -67,7 +67,8 @@ export default class MyGameEngine extends GameEngine {
         // get the player's primary object
         let player = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
         if (player) {
-            console.log(`player ${playerId} pressed ${inputData.input}`);
+            console.log(`player ${playerId} with id=${player.id} pressed ${inputData.input}`);
+
             switch (inputData.input) {
             case 'space':
                 if (player.onPlatform) {
