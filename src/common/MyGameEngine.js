@@ -60,6 +60,18 @@ export default class MyGameEngine extends GameEngine {
             console.log(`player ${player.id} collision stops`);
         });
     }
+    addPlayer(playerId) {
+        this.addObjectToWorld(new Player(
+            this,
+            null,
+            { position: new TwoVector(20, 20), playerId, friction: config.player.friction }
+        ));
+    }
+
+    removePlayer(playerId) {
+        const playerObject = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
+        this.removeObjectFromWorld(playerObject.id);
+    }
 
     processInput(inputData, playerId, isServer) {
         super.processInput(inputData, playerId, isServer);
@@ -116,21 +128,6 @@ export default class MyGameEngine extends GameEngine {
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(270, 410) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(350, 480) }));
 
-    }
-
-
-    addPlayer(playerId) {
-        this.playerStats[playerId] = { stepsTaken: 0 };  // just some example
-        this.addObjectToWorld(new Player(
-            this,
-            null,
-            { position: new TwoVector(20, 20), playerId, friction: config.player.friction }
-        ));
-    }
-
-    removePlayer(playerId) {
-        // this.removeObjectFromWorld(this.playerStats[playerId].id);
-        return 0;
     }
 
 
