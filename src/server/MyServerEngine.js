@@ -10,6 +10,8 @@ export default class MyServerEngine extends ServerEngine {
 
     start() {
         super.start();
+
+        this.gameEngine.initGame();
     }
 
     onPlayerConnected(socket) {

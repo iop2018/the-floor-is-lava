@@ -13,7 +13,7 @@ function updateSprite(sprite, gameObject) {
     sprite.position.y = gameObject.position.y;
     sprite.height = gameObject.height;
     sprite.width = gameObject.width;
-    sprite.rotation = gameObject.angle * Math.PI / 180;
+    sprite.rotation = 0;
     sprite.anchor.set(0.5, 0.5);
 }
 
@@ -62,6 +62,9 @@ export default class MyRenderer extends Renderer {
             console.log('R: addObject: Player');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
             sprite.tint = getRandomColor();
+        } else if (obj.class === Platform) {
+            console.log('R: addObject: Platform');
+            sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
         } else {
             console.log('R: addObject: unknown', obj);
             return;
