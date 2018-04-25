@@ -8,6 +8,10 @@ import { config } from './Parameters';
 
 const SPEED = 1;
 
+const INITIAL_STATS = {
+    stepsTaken: 0,
+};
+
 export default class MyGameEngine extends GameEngine {
 
     constructor(options) {
@@ -40,6 +44,7 @@ export default class MyGameEngine extends GameEngine {
         // get the player's primary object
         let player = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
         if (player) {
+            if (!this.playerStats[player.id]) this.playerStats[player.id] = INITIAL_STATS;
             this.playerStats[player.id].stepsTaken += 1;
             console.log(`player ${playerId} with id=${player.id} pressed ${inputData.input}`);
 
