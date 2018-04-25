@@ -30,9 +30,9 @@ export default class MyGameEngine extends GameEngine {
         super.start();
 
         this.on('collisionStart', (e) => {
-            let collisionObjects = Object.keys(e).map(k => e[k]);
-            let player = collisionObjects.find(o => o instanceof Player);
-            let platform = collisionObjects.find(o => o instanceof Platform);
+            let collisionObjects = Object.keys(e).map((k) => e[k]);
+            let player = collisionObjects.find((o) => o instanceof Player);
+            let platform = collisionObjects.find((o) => o instanceof Platform);
 
             if (!player || !platform) {
                 return;
@@ -45,16 +45,14 @@ export default class MyGameEngine extends GameEngine {
             if (player.position.y > platform.position.y) {
                 this.getPlayerOffPlatform(player);
                 player.position.y = platform.position.y + (platform.height + player.height) / 2;
-            }
-            // zawsze gracz jest na gorze platformy
-            else {
+            } else { // zawsze gracz jest na gorze platformy
                 player.position.y = platform.position.y - (platform.height + player.height) / 2;
             }
         });
         this.on('collisionStop', (e) => {
-            let collisionObjects = Object.keys(e).map(k => e[k]);
-            let player = collisionObjects.find(o => o instanceof Player);
-            let platform = collisionObjects.find(o => o instanceof Platform);
+            let collisionObjects = Object.keys(e).map((k) => e[k]);
+            let player = collisionObjects.find((o) => o instanceof Player);
+            let platform = collisionObjects.find((o) => o instanceof Platform);
             if (player && platform) {
                 // console.log('found falling');
                 this.getPlayerOffPlatform(player);
@@ -67,32 +65,32 @@ export default class MyGameEngine extends GameEngine {
         super.processInput(inputData, playerId, isServer);
 
         // get the player's primary object
-        let player = this.world.queryObject({'playerId': playerId, 'instanceType': Player});
+        let player = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
         if (player) {
             console.log(`player ${playerId} pressed ${inputData.input}`);
             switch (inputData.input) {
-                case 'space':
-                    if (player.onPlatform) {
-                        // tak jest zasymulowany skok
-                        player.velocity.y = -8;
-                        setTimeout(() => {
-                            player.velocity.y = 0;
-                        }, 100);
-                    }
-                    break;
-                case 'left':
-                    player.position.x -= 5;
-                    break;
-                case 'right':
-                    player.position.x += 5;
-                    break;
-                case 'enter':
-                    if (player.affectedByGravity) {
-                        player.affectedByGravity = false;
+            case 'space':
+                if (player.onPlatform) {
+                    // tak jest zasymulowany skok
+                    player.velocity.y = -8;
+                    setTimeout(() => {
                         player.velocity.y = 0;
-                    } else {
-                        player.affectedByGravity = true;
-                    }
+                    }, 100);
+                }
+                break;
+            case 'left':
+                player.position.x -= 5;
+                break;
+            case 'right':
+                player.position.x += 5;
+                break;
+            case 'enter':
+                if (player.affectedByGravity) {
+                    player.affectedByGravity = false;
+                    player.velocity.y = 0;
+                } else {
+                    player.affectedByGravity = true;
+                }
             }
         }
     }
@@ -110,12 +108,12 @@ export default class MyGameEngine extends GameEngine {
 
     initGame() {
         // dodaje te platformy
-        this.addObjectToWorld(new Platform(this, null, {position: new TwoVector(150, 125)}));
-        this.addObjectToWorld(new Platform(this, null, {position: new TwoVector(100, 200)}));
-        this.addObjectToWorld(new Platform(this, null, {position: new TwoVector(150, 275)}));
-        this.addObjectToWorld(new Platform(this, null, {position: new TwoVector(200, 350)}));
-        this.addObjectToWorld(new Platform(this, null, {position: new TwoVector(270, 410)}));
-        this.addObjectToWorld(new Platform(this, null, {position: new TwoVector(350, 480)}));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 125) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(100, 200) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 275) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(200, 350) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(270, 410) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(350, 480) }));
 
     }
 
