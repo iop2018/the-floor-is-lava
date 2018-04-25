@@ -3,6 +3,7 @@
 import Renderer from 'lance/render/Renderer';
 import * as PIXI from 'pixi.js';
 import Player from '../common/Player';
+import Platform from '../common/Platform';
 
 function getRandomColor() {
     return Math.random() * 0xffffff;

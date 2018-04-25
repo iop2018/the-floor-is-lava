@@ -130,7 +130,7 @@ export default class MyGameEngine extends GameEngine {
     }
 
     removePlayer(playerId) {
-        this.removeObjectFromWorld(this.playerStats[playerId].id);
+        // this.removeObjectFromWorld(this.playerStats[playerId].id);
         return 0;
     }
 

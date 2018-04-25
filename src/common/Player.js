@@ -20,5 +20,7 @@ export default class Player extends DynamicObject {
         this.class = Player;
         this.width = 25;
         this.height = 25;
+        this.affectedByGravity = false;
+        this.onPlatform = false;
     };
 }
