@@ -4,8 +4,14 @@ import Renderer from 'lance/render/Renderer';
 import * as PIXI from 'pixi.js';
 import Player from '../common/Player';
 
-function getRandomColor() {
-    return Math.random() * 0xffffff;
+function getPlayerColor(playerId) {
+    function makeLight(seed) {
+        return seed * playerId % 0xff;
+    }
+    const r = makeLight(0x93);
+    const g = makeLight(0x71);
+    const b = makeLight(0x57);
+    return (r * 0x010000) + (g * 0x000100) + b;
 }
 
 function updateSprite(sprite, gameObject) {
@@ -61,7 +67,7 @@ export default class MyRenderer extends Renderer {
         if (obj.class === Player) {
             console.log('R: addObject: Player');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
-            sprite.tint = getRandomColor();
+            sprite.tint = getPlayerColor(obj.playerId);
         } else {
             console.log('R: addObject: unknown', obj);
             return;
