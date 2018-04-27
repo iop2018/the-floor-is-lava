@@ -3,6 +3,7 @@
 import Renderer from 'lance/render/Renderer';
 import * as PIXI from 'pixi.js';
 import Player from '../common/Player';
+import Platform from '../common/Platform';
 
 function getPlayerColor(playerId) {
     function makeLight(seed) {
@@ -83,6 +84,9 @@ export default class MyRenderer extends Renderer {
             console.log('R: addObject: Player');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
             sprite.tint = getPlayerColor(obj.playerId);
+        } else if (obj.class === Platform) {
+            console.log('R: addObject: Platform');
+            sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
         } else {
             console.log('R: addObject: unknown', obj);
             return;

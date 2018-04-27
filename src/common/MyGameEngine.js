@@ -4,21 +4,67 @@ import GameEngine from 'lance/GameEngine';
 import SimplePhysicsEngine from 'lance/physics/SimplePhysicsEngine';
 import TwoVector from 'lance/serialize/TwoVector';
 import Player from './Player';
+import Platform from './Platform';
 import { config } from './Parameters';
 
-const SPEED = 1;
+const FALLING_SPEED = 0.1;
+const JUMPING_SPEED = -8;
+const JUMP_TIME = 200; // miliseconds after jump until falling
+const POSITION_CHANGE = 5; // pixels moving with every keystoke
 
 export default class MyGameEngine extends GameEngine {
 
     constructor(options) {
         super(options);
-        this.physicsEngine = new SimplePhysicsEngine({ gameEngine: this });
+        this.physicsEngine = new SimplePhysicsEngine({
+            gameEngine: this,
+            collisions: {
+                type: 'HSHG',
+            },
+            gravity: new TwoVector(0, FALLING_SPEED),
+        });
+        this.playerStats = {};
     }
 
     registerClasses(serializer) {
         serializer.registerClass(Player);
+        serializer.registerClass(Platform);
     }
 
+    start() {
+        super.start();
+
+        this.on('collisionStart', (e) => {
+            let collisionObjects = Object.keys(e).map((k) => e[k]);
+            let player = collisionObjects.find((o) => o instanceof Player);
+            let platform = collisionObjects.find((o) => o instanceof Platform);
+
+            if (!player || !platform) {
+                return;
+            }
+
+            this.getPlayerOnPlatform(player);
+            console.log(`player ${player.id} collision starts`);
+
+            // nie mozna od dolu wskoczyc
+            if (player.position.y > platform.position.y) {
+                this.getPlayerOffPlatform(player);
+                player.position.y = platform.position.y + (platform.height + player.height) / 2;
+            } else { // zawsze gracz jest na gorze platformy
+                player.position.y = platform.position.y - (platform.height + player.height) / 2;
+            }
+        });
+        this.on('collisionStop', (e) => {
+            let collisionObjects = Object.keys(e).map((k) => e[k]);
+            let player = collisionObjects.find((o) => o instanceof Player);
+            let platform = collisionObjects.find((o) => o instanceof Platform);
+            if (player && platform) {
+                // console.log('found falling');
+                this.getPlayerOffPlatform(player);
+            }
+            console.log(`player ${player.id} collision stops`);
+        });
+    }
     addPlayer(playerId) {
         this.addObjectToWorld(new Player(
             this,
@@ -41,22 +87,53 @@ export default class MyGameEngine extends GameEngine {
             console.log(`player ${playerId} with id=${player.id} pressed ${inputData.input}`);
 
             switch (inputData.input) {
-            case 'up':
-                player.velocity.add(new TwoVector(0, -SPEED));
-                break;
-            case 'down':
-                player.velocity.add(new TwoVector(0, SPEED));
+            case 'space':
+                if (player.onPlatform) {
+                    // tak jest zasymulowany skok
+                    player.velocity.y = JUMPING_SPEED;
+                    setTimeout(() => {
+                        player.velocity.y = 0;
+                    }, JUMP_TIME);
+                }
                 break;
             case 'left':
-                player.velocity.add(new TwoVector(-SPEED, 0));
+                player.position.x -= POSITION_CHANGE;
                 break;
             case 'right':
-                player.velocity.add(new TwoVector(SPEED, 0));
+                player.position.x += POSITION_CHANGE;
                 break;
-            case 'space':
-                player.velocity = (new TwoVector(0, 0));
-                break;
+            case 'enter':
+                if (player.affectedByGravity) {
+                    player.affectedByGravity = false;
+                    player.velocity.y = 0;
+                } else {
+                    player.affectedByGravity = true;
+                }
             }
         }
     }
+
+    getPlayerOnPlatform(player) {
+        player.affectedByGravity = false;
+        player.velocity.y = 0; // nie wystarczy wylaczyc grawitacji, trzeba jeszcze zatrzymac
+        player.onPlatform = true; // mozna skakac tylko, jak jest sie na platformie
+    }
+
+    getPlayerOffPlatform(player) {
+        player.affectedByGravity = true;
+        player.onPlatform = false;
+    }
+
+    initGame() {
+        // dodaje te platformy
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 125) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(100, 200) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 275) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(200, 350) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(270, 410) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(350, 480) }));
+
+    }
+
+
 }
