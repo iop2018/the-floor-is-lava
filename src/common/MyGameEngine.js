@@ -7,6 +7,11 @@ import Player from './Player';
 import Platform from './Platform';
 import { config } from './Parameters';
 
+const FALLING_SPEED = 0.1;
+const JUMPING_SPEED = -8;
+const JUMP_TIME = 200; // miliseconds after jump until falling
+const POSITION_CHANGE = 5; // pixels moving with every keystoke
+
 export default class MyGameEngine extends GameEngine {
 
     constructor(options) {
@@ -16,7 +21,7 @@ export default class MyGameEngine extends GameEngine {
             collisions: {
                 type: 'HSHG',
             },
-            gravity: new TwoVector(0, 0.1),
+            gravity: new TwoVector(0, FALLING_SPEED),
         });
         this.playerStats = {};
     }
@@ -85,17 +90,17 @@ export default class MyGameEngine extends GameEngine {
             case 'space':
                 if (player.onPlatform) {
                     // tak jest zasymulowany skok
-                    player.velocity.y = -8;
+                    player.velocity.y = JUMPING_SPEED;
                     setTimeout(() => {
                         player.velocity.y = 0;
-                    }, 100);
+                    }, JUMP_TIME);
                 }
                 break;
             case 'left':
-                player.position.x -= 5;
+                player.position.x -= POSITION_CHANGE;
                 break;
             case 'right':
-                player.position.x += 5;
+                player.position.x += POSITION_CHANGE;
                 break;
             case 'enter':
                 if (player.affectedByGravity) {

@@ -18,5 +18,6 @@ export default class Platform extends DynamicObject {
         this.width = 100;
         this.height = 25;
         this.affectedByGravity = false;
+        this.angle = 0;
     };
 }

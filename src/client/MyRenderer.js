@@ -14,7 +14,7 @@ function updateSprite(sprite, gameObject) {
     sprite.position.y = gameObject.position.y;
     sprite.height = gameObject.height;
     sprite.width = gameObject.width;
-    sprite.rotation = 0;
+    sprite.rotation = gameObject.angle * Math.PI / 180;
     sprite.anchor.set(0.5, 0.5);
 }
 
