@@ -5,8 +5,14 @@ import * as PIXI from 'pixi.js';
 import Player from '../common/Player';
 import Platform from '../common/Platform';
 
-function getRandomColor() {
-    return Math.random() * 0xffffff;
+function getPlayerColor(playerId) {
+    function makeLight(seed) {
+        return seed * playerId % 0xff;
+    }
+    const r = makeLight(0x93);
+    const g = makeLight(0x71);
+    const b = makeLight(0x57);
+    return (r * 0x010000) + (g * 0x000100) + b;
 }
 
 function updateSprite(sprite, gameObject) {
@@ -24,31 +30,46 @@ export default class MyRenderer extends Renderer {
         console.log('R: Constructing');
         super(gameEngine, clientEngine);
 
+        this.RATIO = 1920/1080;
+        this.BASE_WIDTH = 1920; // When game container has this width, 1px = 1 game unit
+
         this.sprites = new Map();
-        document.sprites = this.sprites;
-        this.canvasDiv = document.getElementById('gameArea');
+        document.renderer = this;
+        this.containerDiv = document.getElementById('gameContainer');
+        this.canvas = document.getElementById('gameArea');
         this.stage = new PIXI.Container();
-        this.canvasW = this.canvasDiv.offsetWidth;
-        this.canvasH = this.canvasDiv.offsetHeight;
         this.renderer = PIXI.autoDetectRenderer({
-            'width': this.canvasW,
-            'height': this.canvasH,
-            'view': this.canvasDiv
+            'width': 0,
+            'height': 0,
+            'view': this.canvas
         });
-        this.renderer.autoResize = true;
+        this.autoresize();
+        let _this = this;
+        window.onresize = function() { _this.autoresize(); };
         this.renderer.render(this.stage);
+    }
+
+    autoresize() {
+        this.renderer.autoResize = true;
+        let w = this.containerDiv.offsetWidth;
+        let h = this.containerDiv.offsetHeight;
+        console.log('R: autoresize: Container is (' + w + ', ' + h + ')');
+        if (w/h >= this.RATIO) {
+            w = h * this.RATIO;
+        } else {
+            h = w / this.RATIO;
+        }
+        this.renderer.view.style.width = w + 'px';
+        this.renderer.view.style.height = h + 'px';
+        this.stage.scale.x = w / this.BASE_WIDTH;
+        this.stage.scale.y = w / this.BASE_WIDTH;
+        this.renderer.resize(w, h);
+        console.log('R: autoresize: Resize to (' + w + ', ' + h + ')');
     }
 
     draw(t, dt) {
         super.draw(t, dt);
 
-        if (this.canvasW !== this.canvasDiv.offsetWidth || this.canvasH !== this.canvasDiv.offsetHeight) {
-            this.canvasW = this.canvasDiv.offsetWidth;
-            this.canvasH = this.canvasDiv.offsetHeight;
-            console.log('R: draw: Resize to (' + this.canvasW + ', ' + this.canvasH + ')');
-            this.renderer.resize(this.canvasW, this.canvasH);
-
-        }
         this.renderer.render(this.stage);
 
         for (const [objId, sprite] of this.sprites.entries()) {
@@ -62,7 +83,7 @@ export default class MyRenderer extends Renderer {
         if (obj.class === Player) {
             console.log('R: addObject: Player');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
-            sprite.tint = getRandomColor();
+            sprite.tint = getPlayerColor(obj.playerId);
         } else if (obj.class === Platform) {
             console.log('R: addObject: Platform');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
