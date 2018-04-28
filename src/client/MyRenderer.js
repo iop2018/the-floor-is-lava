@@ -4,6 +4,11 @@ import Renderer from 'lance/render/Renderer';
 import * as PIXI from 'pixi.js';
 import Player from '../common/Player';
 import Platform from '../common/Platform';
+import Collectible from '../common/Collectible';
+import Bullet from '../common/Bullet';
+
+const RED = 0xff0000;
+const BROWN = 0x8B4513;
 
 function getPlayerColor(playerId) {
     function makeLight(seed) {
@@ -87,6 +92,14 @@ export default class MyRenderer extends Renderer {
         } else if (obj.class === Platform) {
             console.log('R: addObject: Platform');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
+        } else if (obj.class === Collectible) {
+            console.log('R: addObject: Collectible');
+            sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
+            sprite.tint = BROWN;
+        } else if (obj.class === Bullet) {
+            console.log('R: addObject: Bullet');
+            sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
+            sprite.tint = RED;
         } else {
             console.log('R: addObject: unknown', obj);
             return;

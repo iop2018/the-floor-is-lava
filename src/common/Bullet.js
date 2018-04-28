@@ -2,7 +2,7 @@
 
 import DynamicObject from 'lance/serialize/DynamicObject';
 
-export default class Player extends DynamicObject {
+export default class Bullet extends DynamicObject {
 
     static get netScheme() {
         return Object.assign({
@@ -15,14 +15,13 @@ export default class Player extends DynamicObject {
 
     constructor(gameEngine, options, props) {
         super(gameEngine, options, props);
-        if (props && props.playerId)
-            this.playerId = props.playerId;
-        this.class = Player;
-        this.width = 25;
-        this.height = 25;
+        this.class = Bullet;
+        this.width = 5;
+        this.height = 5;
         this.affectedByGravity = false;
-        this.onPlatform = false;
-        if (props && props.equippedWeapon)
-            this.equippedWeapon = props.equippedWeapon;
+        if (props && props.onCollisionFunction)
+            this.onCollisionFunction = props.onCollisionFunction;
+        else
+            this.onCollisionFunction = (e) => {};
     };
 }
