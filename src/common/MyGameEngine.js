@@ -34,32 +34,36 @@ export default class MyGameEngine extends GameEngine {
         super.start();
 
         this.on('collisionStart', (e) => {
-            let collisionObjects = Object.keys(e).map((k) => e[k]);
-            let player = collisionObjects.find((o) => o instanceof Player);
-            let platform = collisionObjects.find((o) => o instanceof Platform);
-
-            if (!player || !platform) {
-                return;
+            let player = null;
+            if (e.o1 instanceof Player) {
+                player = e.o1;
+            } else if (e.o2 instanceof Player) {
+                player = e.o2;
+                e.o2 = e.o1;
+                e.o1 = player;
             }
+            if (player) {
+                // We need to make sure that all sync corrections are applied, otherwise we risk bouncing from
+                // objects during sync ('bending')
+                player.forceUpdate();
+                if (!this.physicsEngine.collisionDetection.areObjectsColliding(e.o1, e.o2)) return;
 
-            this.getPlayerOnPlatform(player);
-            console.log(`player ${player.id} collision starts`);
+                let platform = e.o2 instanceof Platform ? e.o2 : null;
+                if (platform) {
+                    platform.handlePlayerCollision(player);
+                    return;
+                }
 
-            // nie mozna od dolu wskoczyc
-            if (player.position.y > platform.position.y) {
-                this.getPlayerOffPlatform(player);
-                player.position.y = platform.position.y + (platform.height + player.height) / 2;
-            } else { // zawsze gracz jest na gorze platformy
-                player.position.y = platform.position.y - (platform.height + player.height) / 2;
             }
         });
+
         this.on('collisionStop', (e) => {
             let collisionObjects = Object.keys(e).map((k) => e[k]);
             let player = collisionObjects.find((o) => o instanceof Player);
             let platform = collisionObjects.find((o) => o instanceof Platform);
             if (player && platform) {
                 // console.log('found falling');
-                this.getPlayerOffPlatform(player);
+                Platform.handlePlayerOff(player);
             }
             console.log(`player ${player.id} collision stops`);
         });
@@ -109,16 +113,6 @@ export default class MyGameEngine extends GameEngine {
         }
     }
 
-    getPlayerOnPlatform(player) {
-        player.affectedByGravity = false;
-        player.velocity.y = 0; // nie wystarczy wylaczyc grawitacji, trzeba jeszcze zatrzymac
-        player.onPlatform = true; // mozna skakac tylko, jak jest sie na platformie
-    }
-
-    getPlayerOffPlatform(player) {
-        player.affectedByGravity = true;
-        player.onPlatform = false;
-    }
 
     initGame() {
         // dodaje te platformy
