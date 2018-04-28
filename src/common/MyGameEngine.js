@@ -7,9 +7,8 @@ import Player from './Player';
 import Platform from './Platform';
 import { config } from './Parameters';
 
-const FALLING_SPEED = 0.1;
+const FALLING_SPEED = 0.5;
 const JUMPING_SPEED = -8;
-const JUMP_TIME = 200; // miliseconds after jump until falling
 const POSITION_CHANGE = 5; // pixels moving with every keystoke
 
 export default class MyGameEngine extends GameEngine {
@@ -91,9 +90,6 @@ export default class MyGameEngine extends GameEngine {
                 if (player.onPlatform) {
                     // tak jest zasymulowany skok
                     player.velocity.y = JUMPING_SPEED;
-                    setTimeout(() => {
-                        player.velocity.y = 0;
-                    }, JUMP_TIME);
                 }
                 break;
             case 'left':
