@@ -6,6 +6,7 @@ import Player from '../common/Player';
 import Platform from '../common/Platform';
 import Collectible from '../common/Collectible';
 import Bullet from '../common/Bullet';
+import { isNullWeapon } from '../common/Weapon';
 
 const RED = 0xff0000;
 const BROWN = 0x8B4513;
@@ -27,6 +28,13 @@ function updateSprite(sprite, gameObject) {
     sprite.width = gameObject.width;
     sprite.rotation = gameObject.angle * Math.PI / 180;
     sprite.anchor.set(0.5, 0.5);
+
+    if (gameObject instanceof Player) {
+        console.log(gameObject.toString() + ` | ` + gameObject.equippedWeapon.name);
+        if (!isNullWeapon(gameObject.equippedWeapon)) {
+            console.log(`Bullets: ${ gameObject.equippedWeapon.bullets }`);
+        }
+    }
 }
 
 export default class MyRenderer extends Renderer {

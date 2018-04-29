@@ -7,7 +7,7 @@ import Player from './Player';
 import Platform from './Platform';
 import Collectible from './Collectible';
 import Bullet from './Bullet';
-import Weapon from './Weapon';
+import Weapon, { nullWeapon, isNullWeapon } from './Weapon';
 import { config } from './Parameters';
 
 const FALLING_SPEED = 0.1;
@@ -38,6 +38,7 @@ export default class MyGameEngine extends GameEngine {
         serializer.registerClass(Platform);
         serializer.registerClass(Collectible);
         serializer.registerClass(Bullet);
+        serializer.addCustomType(Weapon);
         serializer.registerClass(Weapon);
     }
 
@@ -69,6 +70,8 @@ export default class MyGameEngine extends GameEngine {
             } else if (collectible) {
                 if (collectible.pickup instanceof Weapon) {
                     console.log(`player ${player.id} collected weapon`);
+                    if (player.equippedWeapon && !isNullWeapon(player.equippedWeapon))
+                        this.removeObjectFromWorld(player.equippedWeapon);
                     player.equippedWeapon = collectible.pickup;
                 }
                 this.removeObjectFromWorld(collectible);
@@ -160,7 +163,7 @@ export default class MyGameEngine extends GameEngine {
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(270, 410) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(350, 480) }));
 
-        // Small example
+        // Shoot example
         let bulletHitExample = (player) => {
             if (player.onPlatform)
                 this.getPlayerOffPlatform(player);
@@ -189,7 +192,7 @@ export default class MyGameEngine extends GameEngine {
     }
 
     shoot(player) {
-        if (!player.equippedWeapon)
+        if (!player.equippedWeapon || isNullWeapon(player.equippedWeapon))
             return;
 
         let weapon = player.equippedWeapon;
@@ -198,7 +201,7 @@ export default class MyGameEngine extends GameEngine {
 
         if (!weapon.bullets) {
             console.log(`Out of bullets`);
-            player.equippedWeapon = null;
+            player.equippedWeapon = nullWeapon(this);
             this.removeObjectFromWorld(weapon);
         }
     }
