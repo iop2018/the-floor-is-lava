@@ -83,8 +83,9 @@ export default class MyRenderer extends Renderer {
             updateSprite(sprite, this.gameEngine.world.objects[objId]);
         }
 
-        for (let player of this.players)
-            this.updateHUD(player);
+        for (let playerId of this.players.values()) {
+            this.updateHUD(this.gameEngine.world.queryObject({ 'playerId': playerId, 'instanceType': Player }));
+        }
     }
 
     addObject(obj) {
@@ -124,7 +125,9 @@ export default class MyRenderer extends Renderer {
     }
 
     createHUD(player) {
+        console.log(`R: Adding HUD of player ` + player.playerId);
         this.players.add(player.playerId);
+        console.log(`R: His playerID is ` + player.playerId);
         let playerInfo = document.createElement('div');
         playerInfo.id = 'Player ' + player.playerId;
         playerInfo.innerText = 'Player ' + player.playerId;
@@ -140,12 +143,16 @@ export default class MyRenderer extends Renderer {
     }
 
     removeHUD(player) {
+        console.log(`R: Removing HUD of player ` + player.playerId);
         this.HUD.removeChild(document.getElementById('Player ' + player.playerId));
         this.players.delete(player.playerId);
     }
 
     updateHUD(player) {
         let playerInfo = document.getElementById('Player ' + player.playerId);
-        // TODO
+        let weaponInfo = playerInfo.children[0];
+        weaponInfo.innerText = 'Weapon: ' + player.equippedWeapon.name;
+        let bulletsInfo = playerInfo.children[1];
+        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets;
     }
 }
