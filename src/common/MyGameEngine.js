@@ -186,7 +186,7 @@ export default class MyGameEngine extends GameEngine {
             }, BULLET_LIFETIME);
         };
         let weapon = this.addObjectToWorld(new Weapon(this, null,
-            { shootFunction: shootExample, bullets: 5, name: 'Simple Gun 2' }));
+            { shootFunction: shootExample, bullets: 50, name: 'Simple Gun 2' }));
         this.addObjectToWorld(new Collectible(this, null,
             { position: new TwoVector(300, 250), pickup: weapon }));
     }

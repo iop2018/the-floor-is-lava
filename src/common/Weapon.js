@@ -34,8 +34,6 @@ export default class Weapon extends DynamicObject {
     }
 }
 
-// We can't let player hold null weapon, because serializer crashes.
-// Therefore we create nullWeapon.
 export function nullWeapon(gameEngine) {
     return new Weapon(gameEngine, null, { name: 'None' });
 }
