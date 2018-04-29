@@ -14,5 +14,6 @@ export default class MyClientEngine extends ClientEngine {
         this.controls.bindKey('right', 'right', { repeat: true });
         this.controls.bindKey('space', 'space');
         this.controls.bindKey('enter', 'enter');
+        this.controls.bindKey('z', 'z');
     }
 }

@@ -1,12 +1,14 @@
 'use strict';
 
 import DynamicObject from 'lance/serialize/DynamicObject';
+import Serializer from 'lance/serialize/Serializer';
+import { nullWeapon } from './Weapon';
 
 export default class Player extends DynamicObject {
 
     static get netScheme() {
         return Object.assign({
-            // add serializable properties here
+            equippedWeapon: { type: Serializer.TYPES.CLASSINSTANCE }
         }, super.netScheme);
     }
 
@@ -22,7 +24,12 @@ export default class Player extends DynamicObject {
         this.height = 25;
         this.affectedByGravity = false;
         this.onPlatform = false;
+        if (props && props.equippedWeapon)
+            this.equippedWeapon = props.equippedWeapon;
+        else
+            this.equippedWeapon = nullWeapon(gameEngine);
     };
+
 
     forceUpdate() {
         let modified = this.bendingIncrements > 0;
@@ -30,5 +37,10 @@ export default class Player extends DynamicObject {
             this.applyIncrementalBending();
         }
         return modified;
-    }
+    };
+
+    syncTo(other) {
+        super.syncTo(other);
+        this.equippedWeapon = other.equippedWeapon;
+    };
 }
