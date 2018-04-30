@@ -13,7 +13,7 @@ export default class Player extends DynamicObject {
     }
 
     get bendingMultiple() { return 0.5; }
-    get bendingVelocityMultiple() { return 0; }
+    get bendingVelocityMultiple() { return 1; }
 
     constructor(gameEngine, options, props) {
         super(gameEngine, options, props);
@@ -30,8 +30,17 @@ export default class Player extends DynamicObject {
             this.equippedWeapon = nullWeapon(gameEngine);
     };
 
+
+    forceUpdate() {
+        let modified = this.bendingIncrements > 0;
+        while (this.bendingIncrements) {
+            this.applyIncrementalBending();
+        }
+        return modified;
+    };
+
     syncTo(other) {
         super.syncTo(other);
         this.equippedWeapon = other.equippedWeapon;
-    }
+    };
 }
