@@ -43,4 +43,9 @@ export default class Platform extends DynamicObject {
             }
         }
     }
+
+    static handlePlayerOff(player) {
+        player.affectedByGravity = true;
+        player.onPlatform = false;
+    }
 }
