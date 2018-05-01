@@ -20,7 +20,6 @@ export default class Platform extends DynamicObject {
         this.height = 25;
         this.affectedByGravity = false;
         this.angle = 0;
-        this.velocity.y = 0.4; // TODO attempt gameEngine step-based  solution - this is a quick dirty mockup
     };
 
     handlePlayerCollision(player) {
@@ -37,8 +36,7 @@ export default class Platform extends DynamicObject {
             if (player.velocity.y > 0) {
                 // position player on top and prevent falling down
 
-                // TODO tests and commentary - maybe this margin will be redundant
-                player.position.y = this.position.y - (this.height + player.height) / 2 + 1 + this.velocity.y;
+                player.position.y = this.position.y - (this.height + player.height) / 2;
 
                 player.affectedByGravity = false;
                 player.velocity.y = this.velocity.y;

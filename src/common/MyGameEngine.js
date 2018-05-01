@@ -21,6 +21,7 @@ const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
 const BULLET_LIFETIME = 3000;
 const BULLET_HIT_TIME = 500;
 const TERMINATE_OBJECT_HEIGHT = 1200;
+const INITIAL_WORLD_SPEED = new TwoVector(-0.1, 0.5);
 
 export default class MyGameEngine extends GameEngine {
 
@@ -34,6 +35,7 @@ export default class MyGameEngine extends GameEngine {
             gravity: new TwoVector(0, FALLING_SPEED),
         });
         this.playerStats = {};
+        this.worldSpeed = INITIAL_WORLD_SPEED;
     }
 
     registerClasses(serializer) {
@@ -98,6 +100,12 @@ export default class MyGameEngine extends GameEngine {
                 console.log(`player ${player.id} collision stops`);
             }
         });
+
+        this.on('postStep', () => {
+            this.world.queryObjects({ instanceType: DynamicObject }).forEach((obj) => {
+                obj.position.add(this.worldSpeed);
+            });
+        })
     }
     addPlayer(playerId) {
         this.addObjectToWorld(new Player(
