@@ -148,7 +148,15 @@ export default class MyGameEngine extends GameEngine {
 
     // ran on server-side gameEngine instance when the game begins
     initGame() {
-        // dodaje te platformy
+        // TODO add initiation of level via levelGenerator
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(450, -390) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(120, -320) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(250, -280) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(200, -210) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(50, -170) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(320, -100) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(250, -60) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 40) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 125) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(100, 200) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 275) }));

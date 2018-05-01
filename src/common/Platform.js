@@ -16,11 +16,11 @@ export default class Platform extends DynamicObject {
     constructor(gameEngine, options, props) {
         super(gameEngine, options, props);
         this.class = Platform;
-        this.width = 100;
+        this.width = 100;  // TODO support props
         this.height = 25;
         this.affectedByGravity = false;
         this.angle = 0;
-        this.velocity.y = 0.1; // TODO attempt gameEngine step-based  solution - this is a quick dirty mockup
+        this.velocity.y = 0.4; // TODO attempt gameEngine step-based  solution - this is a quick dirty mockup
     };
 
     handlePlayerCollision(player) {
