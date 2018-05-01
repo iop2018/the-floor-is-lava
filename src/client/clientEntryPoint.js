@@ -11,9 +11,21 @@ const defaults = {
     scheduler: 'render-schedule',
     syncOptions: {
         sync: qsOptions.sync || 'extrapolate',
-        localObjBending: 0.0,
-        remoteObjBending: 0.8,
-        bendingIncrements: 6
+
+        // common options
+        syncsBufferLength: 6,
+
+        // interpolate strategy exclusive options
+        clientStepHold: 6,
+        reflect: false,
+
+        // extrapolate strategy exclusive options
+        maxReEnactSteps: 60,   // maximum number of steps to re-enact
+        RTTEstimate: 2,        // estimate the RTT as two steps (for updateRate=6, that's 200ms)
+        extrapolate: 2,        // player performs method "X" which means extrapolate to match server time. that 100 + (0..100)
+        localObjBending: 0.0,  // amount of bending towards position of sync object
+        remoteObjBending: 0.8, // amount of bending towards position of sync object
+        bendingIncrements: 6,  // the bending should be applied increments (how many steps for entire bend)
     }
 };
 let options = Object.assign(defaults, qsOptions);

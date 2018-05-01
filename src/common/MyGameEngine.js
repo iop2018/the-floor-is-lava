@@ -129,7 +129,7 @@ export default class MyGameEngine extends GameEngine {
             // console.log(`player ${playerId} with id=${player.id} pressed ${inputData.input}`);
 
             switch (inputData.input) {
-            case 'space':
+            case 'jump':
                 if (player.onPlatform) {
                     // tak jest zasymulowany skok
                     player.velocity.y = JUMPING_SPEED;
@@ -149,7 +149,7 @@ export default class MyGameEngine extends GameEngine {
                     player.affectedByGravity = true;
                 }
                 break;
-            case 'z':
+            case 'shoot':
                 this.shoot(player);
                 break;
             }
@@ -161,8 +161,6 @@ export default class MyGameEngine extends GameEngine {
     initGame() {
         // Shoot example
         let bulletHitExample = (player) => {
-            if (player.onPlatform)
-                this.getPlayerOffPlatform(player);
             player.velocity.y -= 5;
             player.velocity.x += 5;
             setTimeout(() => {
