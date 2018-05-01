@@ -156,8 +156,6 @@ export default class MyGameEngine extends GameEngine {
 
         // Shoot example
         let bulletHitExample = (player) => {
-            if (player.onPlatform)
-                this.getPlayerOffPlatform(player);
             player.velocity.y -= 5;
             player.velocity.x += 5;
             setTimeout(() => {
