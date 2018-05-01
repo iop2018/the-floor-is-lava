@@ -9,7 +9,8 @@ import Collectible from './Collectible';
 import Bullet from './Bullet';
 import Weapon, { nullWeapon, isNullWeapon } from './Weapon';
 import { config } from './Parameters';
-import LevelGenerator from "./LevelGenerator";
+import LevelGenerator from './LevelGenerator';
+import DynamicObject from 'lance/serialize/DynamicObject';
 
 const FALLING_SPEED = 0.5;
 const JUMPING_SPEED = -10;
@@ -18,6 +19,7 @@ const BULLET_VELOCITY = new TwoVector(5, 0);
 const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
 const BULLET_LIFETIME = 3000;
 const BULLET_HIT_TIME = 500;
+const TERMINATE_OBJECT_HEIGHT = 1200;
 
 export default class MyGameEngine extends GameEngine {
 
@@ -192,7 +194,12 @@ export default class MyGameEngine extends GameEngine {
             { position: new TwoVector(300, 250), pickup: weapon }));
 
         this.levelGenerator = new LevelGenerator(this);
-        this.on('server__postStep', () => this.levelGenerator.step());
+        this.on('server__postStep', () => {
+            this.levelGenerator.step();
+            this.world.queryObjects({ instanceType: DynamicObject }).forEach((obj) => {
+                if (obj.position.y > TERMINATE_OBJECT_HEIGHT) this.removeObjectFromWorld(obj);
+            });
+        });
     }
 
     shoot(player) {
