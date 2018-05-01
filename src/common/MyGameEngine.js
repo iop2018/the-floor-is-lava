@@ -21,7 +21,7 @@ const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
 const BULLET_LIFETIME = 3000;
 const BULLET_HIT_TIME = 500;
 const TERMINATE_OBJECT_HEIGHT = 1200;
-const INITIAL_WORLD_SPEED = new TwoVector(0.151, 1.2);
+const INITIAL_WORLD_SPEED = new TwoVector(0.151, 2.3);
 
 export default class MyGameEngine extends GameEngine {
 
@@ -180,7 +180,7 @@ export default class MyGameEngine extends GameEngine {
             }, BULLET_LIFETIME);
         };
         let weapon = this.addObjectToWorld(new Weapon(this, null,
-            { shootFunction: shootExample, bullets: 50, name: 'Simple Gun 2' }));
+            { shootFunction: shootExample, bullets: 50, name: 'Simple Gun 2' })); // TODO construct weapons only on collect
         this.addObjectToWorld(new Collectible(this, null,
             { position: new TwoVector(300, 250), pickup: weapon }));
 
