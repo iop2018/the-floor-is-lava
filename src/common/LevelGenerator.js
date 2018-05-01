@@ -1,4 +1,4 @@
-import Platform from './Platform';
+import Platform from './models/Platform';
 import TwoVector from 'lance/serialize/TwoVector';
 
 const SPAWN_HEIGHT = -300;

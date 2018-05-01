@@ -3,11 +3,11 @@
 import GameEngine from 'lance/GameEngine';
 import SimplePhysicsEngine from 'lance/physics/SimplePhysicsEngine';
 import TwoVector from 'lance/serialize/TwoVector';
-import Player from './Player';
-import Platform from './Platform';
-import Collectible from './Collectible';
-import Bullet from './Bullet';
-import Weapon, { nullWeapon, isNullWeapon } from './Weapon';
+import Player from './models/Player';
+import Platform from './models/Platform';
+import Collectible from './models/Collectible';
+import Bullet from './models/Bullet';
+import Weapon, { nullWeapon, isNullWeapon } from './models/Weapon';
 import { config } from './Parameters';
 import LevelGenerator from './LevelGenerator';
 import DynamicObject from 'lance/serialize/DynamicObject';
