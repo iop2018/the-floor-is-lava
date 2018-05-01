@@ -8,14 +8,14 @@ export default class MyClientEngine extends ClientEngine {
         super(gameEngine, options, MyRenderer);
 
         this.controls = new KeyboardControls(this);
-        [
-            [['up', 'w'], 'up', { repeat: false }],
-            [['down', 's'], 'down', { repeat: true }],
-            [['left', 'a'], 'left', { repeat: true }],
-            [['right', 'd'], 'right', { repeat: true }],
-            ['space', 'jump'],
-            ['enter', 'enter'],
-            [['z', 'shift'], 'shoot'],
-        ].forEach((argList) => this.controls.bindKey(...argList));
+        const bindKey = this.controls.bindKey.bind(this.controls);
+
+        bindKey(['up', 'w'], 'up', { repeat: false });
+        bindKey(['down', 's'], 'down', { repeat: true });
+        bindKey(['left', 'a'], 'left', { repeat: true });
+        bindKey(['right', 'd'], 'right', { repeat: true });
+        bindKey('space', 'jump');
+        bindKey('enter', 'enter');
+        bindKey(['z', 'shift'], 'shoot');
     }
 }
