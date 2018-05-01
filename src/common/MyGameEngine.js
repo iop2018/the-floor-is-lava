@@ -15,6 +15,7 @@ import DynamicObject from 'lance/serialize/DynamicObject';
 const FALLING_SPEED = 0.5;
 const JUMPING_SPEED = -10;
 const POSITION_CHANGE = 5; // pixels moving with every keystoke
+
 const BULLET_VELOCITY = new TwoVector(5, 0);
 const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
 const BULLET_LIFETIME = 3000;
@@ -108,7 +109,7 @@ export default class MyGameEngine extends GameEngine {
 
     removePlayer(playerId) {
         const playerObject = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
-        this.removeObjectFromWorld(playerObject.id);
+        if (playerObject) this.removeObjectFromWorld(playerObject.id);
     }
 
     processInput(inputData, playerId, isServer) {
