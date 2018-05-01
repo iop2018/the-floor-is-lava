@@ -9,14 +9,19 @@ import Collectible from './models/Collectible';
 import Bullet from './models/Bullet';
 import Weapon, { nullWeapon, isNullWeapon } from './models/Weapon';
 import { config } from './Parameters';
+import LevelGenerator from './LevelGenerator';
+import DynamicObject from 'lance/serialize/DynamicObject';
 
 const FALLING_SPEED = 0.5;
-const JUMPING_SPEED = -8;
+const JUMPING_SPEED = -10;
 const POSITION_CHANGE = 5; // pixels moving with every keystoke
+
 const BULLET_VELOCITY = new TwoVector(5, 0);
 const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
 const BULLET_LIFETIME = 3000;
 const BULLET_HIT_TIME = 500;
+const TERMINATE_OBJECT_HEIGHT = 1200;
+const INITIAL_WORLD_SPEED = new TwoVector(-0.1, 0.5);
 
 export default class MyGameEngine extends GameEngine {
 
@@ -30,6 +35,7 @@ export default class MyGameEngine extends GameEngine {
             gravity: new TwoVector(0, FALLING_SPEED),
         });
         this.playerStats = {};
+        this.worldSpeed = INITIAL_WORLD_SPEED;
     }
 
     registerClasses(serializer) {
@@ -94,6 +100,12 @@ export default class MyGameEngine extends GameEngine {
                 console.log(`player ${player.id} collision stops`);
             }
         });
+
+        this.on('postStep', () => {
+            this.world.queryObjects({ instanceType: DynamicObject }).forEach((obj) => {
+                obj.position.add(this.worldSpeed);
+            });
+        })
     }
     addPlayer(playerId) {
         this.addObjectToWorld(new Player(
@@ -105,7 +117,7 @@ export default class MyGameEngine extends GameEngine {
 
     removePlayer(playerId) {
         const playerObject = this.world.queryObject({ 'playerId': playerId, 'instanceType': Player });
-        this.removeObjectFromWorld(playerObject.id);
+        if (playerObject) this.removeObjectFromWorld(playerObject.id);
     }
 
     processInput(inputData, playerId, isServer) {
@@ -145,8 +157,17 @@ export default class MyGameEngine extends GameEngine {
     }
 
 
+    // ran on server-side gameEngine instance when the game begins
     initGame() {
-        // dodaje te platformy
+        // TODO add initiation of level via levelGenerator
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(450, -390) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(120, -320) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(250, -280) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(200, -210) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(50, -170) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(320, -100) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(250, -60) }));
+        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 40) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 125) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(100, 200) }));
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 275) }));
@@ -180,6 +201,14 @@ export default class MyGameEngine extends GameEngine {
             { shootFunction: shootExample, bullets: 50, name: 'Simple Gun 2' }));
         this.addObjectToWorld(new Collectible(this, null,
             { position: new TwoVector(300, 250), pickup: weapon }));
+
+        this.levelGenerator = new LevelGenerator(this);
+        this.on('server__postStep', () => {
+            this.levelGenerator.step();
+            this.world.queryObjects({ instanceType: DynamicObject }).forEach((obj) => {
+                if (obj.position.y > TERMINATE_OBJECT_HEIGHT) this.removeObjectFromWorld(obj);
+            });
+        });
     }
 
     shoot(player) {
