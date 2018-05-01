@@ -13,15 +13,15 @@ import LevelGenerator from './LevelGenerator';
 import DynamicObject from 'lance/serialize/DynamicObject';
 
 const FALLING_SPEED = 0.5;
-const JUMPING_SPEED = -10;
-const POSITION_CHANGE = 5; // pixels moving with every keystoke
+const JUMPING_SPEED = -13;
+const POSITION_CHANGE = 12; // pixels moving with every keystoke
 
 const BULLET_VELOCITY = new TwoVector(5, 0);
 const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
 const BULLET_LIFETIME = 3000;
 const BULLET_HIT_TIME = 500;
 const TERMINATE_OBJECT_HEIGHT = 1200;
-const INITIAL_WORLD_SPEED = new TwoVector(-0.1, 0.5);
+const INITIAL_WORLD_SPEED = new TwoVector(0.151, 1.2);
 
 export default class MyGameEngine extends GameEngine {
 
@@ -105,7 +105,7 @@ export default class MyGameEngine extends GameEngine {
             this.world.queryObjects({ instanceType: DynamicObject }).forEach((obj) => {
                 obj.position.add(this.worldSpeed);
             });
-        })
+        });
     }
     addPlayer(playerId) {
         this.addObjectToWorld(new Player(

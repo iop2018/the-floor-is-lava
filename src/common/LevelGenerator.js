@@ -22,8 +22,7 @@ export default class LevelGenerator {
     constructor(gameEngine, options) {
         this.gameEngine = gameEngine;
         this.options = Object.assign({
-            platformStepDelay: () => 40, // TODO depend on distances (basing on world speed (and, later, accel))
-                                         // instead of just steps
+            platformStepDelay: () => 40,  // TODO refactor how we feed functions to this constructor
         }, options);
 
         this.spawners = [
@@ -39,7 +38,7 @@ export default class LevelGenerator {
 
     spawnPlatform() {
         this.gameEngine.addObjectToWorld(
-            new Platform(this.gameEngine, null, { position: new TwoVector(200 + Math.random() * 1500, SPAWN_HEIGHT) })
+            new Platform(this.gameEngine, null, { position: new TwoVector(-150 + Math.random() * 2000, SPAWN_HEIGHT) })
         );
     }
 }
