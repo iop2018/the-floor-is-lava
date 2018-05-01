@@ -11,7 +11,7 @@ import Weapon, { nullWeapon, isNullWeapon } from './Weapon';
 import { config } from './Parameters';
 
 const FALLING_SPEED = 0.5;
-const JUMPING_SPEED = -8;
+const JUMPING_SPEED = -10;
 const POSITION_CHANGE = 5; // pixels moving with every keystoke
 const BULLET_VELOCITY = new TwoVector(5, 0);
 const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
