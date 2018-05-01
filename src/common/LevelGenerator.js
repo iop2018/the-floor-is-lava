@@ -4,16 +4,16 @@ import TwoVector from 'lance/serialize/TwoVector';
 const SPAWN_HEIGHT = -300;
 
 class Spawner {
-    constructor(getFreq, spawn) {
-        this.countdown = getFreq();
-        this.getFreq = getFreq;
+    constructor(getNewDelay, spawn) {
+        this.countdown = getNewDelay();
+        this.getNewDelay = getNewDelay;
         this.spawn = spawn;
     }
 
     step() {
         if (--this.countdown === 0) {
             this.spawn();
-            this.countdown = this.getFreq();
+            this.countdown = this.getNewDelay();
         }
     }
 }
@@ -22,12 +22,12 @@ export default class LevelGenerator {
     constructor(gameEngine, options) {
         this.gameEngine = gameEngine;
         this.options = Object.assign({
-            platformStepFreq: () => 70,  // TODO depend on distances (basing on world speed (and, later, accel))
+            platformStepDelay: () => 40, // TODO depend on distances (basing on world speed (and, later, accel))
                                          // instead of just steps
         }, options);
 
         this.spawners = [
-            new Spawner(() => this.options.platformStepFreq(), () => this.spawnPlatform()),
+            new Spawner(() => this.options.platformStepDelay(), () => this.spawnPlatform()),
         ];
     }
 
