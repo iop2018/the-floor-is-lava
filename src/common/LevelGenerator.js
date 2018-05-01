@@ -1,4 +1,4 @@
-import Platform from '../common/Platform';
+import Platform from './Platform';
 import TwoVector from 'lance/serialize/TwoVector';
 
 class Spawner {
@@ -19,9 +19,9 @@ class Spawner {
 export default class LevelGenerator {
     constructor(gameEngine, options) {
         this.gameEngine = gameEngine;
-        console.log(this.gameEngine);
         this.options = Object.assign({
-            platformStepFreq: () => 1000,
+            platformStepFreq: () => 200, // TODO depend on distances (basing on world speed (and, later, accel))
+                                         // instead of just steps
         }, options);
 
         this.spawners = [
@@ -35,7 +35,7 @@ export default class LevelGenerator {
 
     spawnPlatform() {
         this.gameEngine.addObjectToWorld(
-            new Platform(this.gameEngine, null, { position: new TwoVector(150, 125) })
+            new Platform(this.gameEngine, null, { position: new TwoVector(200 + Math.random() * 1500, 125) })
         );
     }
 }

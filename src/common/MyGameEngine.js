@@ -9,6 +9,7 @@ import Collectible from './Collectible';
 import Bullet from './Bullet';
 import Weapon, { nullWeapon, isNullWeapon } from './Weapon';
 import { config } from './Parameters';
+import LevelGenerator from "./LevelGenerator";
 
 const FALLING_SPEED = 0.5;
 const JUMPING_SPEED = -10;
@@ -145,6 +146,7 @@ export default class MyGameEngine extends GameEngine {
     }
 
 
+    // ran on server-side gameEngine instance when the game begins
     initGame() {
         // dodaje te platformy
         this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 125) }));
@@ -180,6 +182,9 @@ export default class MyGameEngine extends GameEngine {
             { shootFunction: shootExample, bullets: 50, name: 'Simple Gun 2' }));
         this.addObjectToWorld(new Collectible(this, null,
             { position: new TwoVector(300, 250), pickup: weapon }));
+
+        this.levelGenerator = new LevelGenerator(this);
+        this.on('server__postStep', () => this.levelGenerator.step());
     }
 
     shoot(player) {
