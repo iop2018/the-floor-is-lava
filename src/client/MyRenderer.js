@@ -2,10 +2,10 @@
 
 import Renderer from 'lance/render/Renderer';
 import * as PIXI from 'pixi.js';
-import Player from '../common/Player';
-import Platform from '../common/Platform';
-import Collectible from '../common/Collectible';
-import Bullet from '../common/Bullet';
+import Player from '../common/models/Player';
+import Platform from '../common/models/Platform';
+import Collectible from '../common/models/Collectible';
+import Bullet from '../common/models/Bullet';
 
 const RED = 0xff0000;
 const BROWN = 0x8B4513;
