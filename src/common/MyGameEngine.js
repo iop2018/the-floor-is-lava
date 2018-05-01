@@ -159,22 +159,6 @@ export default class MyGameEngine extends GameEngine {
 
     // ran on server-side gameEngine instance when the game begins
     initGame() {
-        // TODO add initiation of level via levelGenerator
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(450, -390) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(120, -320) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(250, -280) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(200, -210) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(50, -170) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(320, -100) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(250, -60) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 40) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 125) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(100, 200) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(150, 275) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(200, 350) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(270, 410) }));
-        this.addObjectToWorld(new Platform(this, null, { position: new TwoVector(350, 480) }));
-
         // Shoot example
         let bulletHitExample = (player) => {
             if (player.onPlatform)
@@ -203,6 +187,9 @@ export default class MyGameEngine extends GameEngine {
             { position: new TwoVector(300, 250), pickup: weapon }));
 
         this.levelGenerator = new LevelGenerator(this);
+        this.levelGenerator.initLevel();
+
+        // handle level element generation and destruction on server side
         this.on('server__postStep', () => {
             this.levelGenerator.step();
             this.world.queryObjects({ instanceType: DynamicObject }).forEach((obj) => {
