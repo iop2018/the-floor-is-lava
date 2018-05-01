@@ -90,7 +90,7 @@ export default class MyGameEngine extends GameEngine {
             let player = collisionObjects.find((o) => o instanceof Player);
             let platform = collisionObjects.find((o) => o instanceof Platform);
             if (player && platform) {
-                Platform.handlePlayerOff(player);
+                this.handlePlayerOffPlatform(player);
                 console.log(`player ${player.id} collision stops`);
             }
         });
@@ -101,6 +101,11 @@ export default class MyGameEngine extends GameEngine {
             null,
             { position: new TwoVector(20, 20), playerId, friction: config.player.friction }
         ));
+    }
+
+    handlePlayerOffPlatform(player) {
+        player.affectedByGravity = true;
+        player.onPlatform = false;
     }
 
     removePlayer(playerId) {
@@ -157,7 +162,7 @@ export default class MyGameEngine extends GameEngine {
         // Shoot example
         let bulletHitExample = (player) => {
             if (player.onPlatform)
-                this.getPlayerOffPlatform(player);
+                this.handlePlayerOffPlatform(player);
             player.velocity.y -= 5;
             player.velocity.x += 5;
             setTimeout(() => {
