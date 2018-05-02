@@ -16,8 +16,8 @@ export default class Platform extends DynamicObject {
     constructor(gameEngine, options, props) {
         super(gameEngine, options, props);
         this.class = Platform;
-        this.width = 100;  // TODO support props
-        this.height = 25;
+        this.width = 200;  // TODO support props
+        this.height = 35;
         this.affectedByGravity = false;
         this.angle = 0;
     };
@@ -36,7 +36,7 @@ export default class Platform extends DynamicObject {
             if (player.velocity.y > 0) {
                 // position player on top and prevent falling down
 
-                player.position.y = this.position.y - (this.height + player.height) / 2;
+                player.position.y = this.position.y - (this.height + player.height) / 2 + 0.01; // margin for collisions
 
                 player.affectedByGravity = false;
                 player.velocity.y = this.velocity.y;
