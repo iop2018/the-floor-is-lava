@@ -14,7 +14,7 @@ export default class MyClientEngine extends ClientEngine {
             'You\'re pathetic, you know that?', 'Nothing makes me happier than watching you fail', 'Wow, you really suck',
             'Can you focus for a second?', 'It\'s official. You\'re retarded', 'WTF WAS THAT?', 'You\'re sooo dumb',
             'LOL', 'Hahaha', 'You lost, man.', 'I bet you loose this time too', 'Maybe turn your brain on',
-            'How about not dying this time?', 'No, not like that', 'Not gonna happen for you, bro'];
+            'How about not dying this time?', 'No, not like that', 'Not gonna happen for you, bro', 'Moron'];
         this.comment = document.querySelector('#comment');
         this.replayButton = document.querySelector('#startGame');
         this.guiContainer = document.querySelector('#guiContainer');
@@ -38,14 +38,11 @@ export default class MyClientEngine extends ClientEngine {
             }
         });
 
-        // something like the line below seems to be necessary, will add soon
-        // this.gameEngine.once('renderer.ready', () => {
         // click event for "try again" button
         document.querySelector('#startGame').addEventListener('click', () => {
             this.hideReplayButton();
             this.socket.emit('requestRestart');
         });
-        // });
     }
 
     showReplayButton() {
