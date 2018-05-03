@@ -17,7 +17,13 @@ export default class MyServerEngine extends ServerEngine {
     onPlayerConnected(socket) {
         super.onPlayerConnected(socket);
 
-        this.gameEngine.addPlayer(socket.playerId);
+        // lousy function name
+        let addPlayerHelper = () => {
+            this.gameEngine.addPlayer(socket.playerId);
+        };
+
+        // handle client restart request
+        socket.on('requestRestart', addPlayerHelper);
     }
 
     onPlayerDisconnected(socketId, playerId) {
