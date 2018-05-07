@@ -10,12 +10,9 @@ export default class MyClientEngine extends ClientEngine {
 
         this.controls = new KeyboardControls(this);
         const bindKey = this.controls.bindKey.bind(this.controls);
-        this.comments = ['Are you crying yet?', 'That was lame', 'Seriously, are you retarded?',
-            'You\'re pathetic, you know that?', 'Nothing makes me happier than watching you fail', 'Wow, you really suck',
-            'Can you focus for a second?', 'It\'s official. You\'re retarded', 'WTF WAS THAT?', 'You\'re sooo dumb',
-            'LOL', 'Hahaha', 'You lost, man.', 'I bet you loose this time too', 'Maybe turn your brain on',
-            'How about not dying this time?', 'No, not like that', 'Not gonna happen for you, bro', 'Moron'];
-        this.comment = document.querySelector('#comment');
+        this.comments = ['Better luck next time!', 'Would you like to try again?', 'Practice makes perfect...',
+            'You almost made it!', 'Keep trying!', 'Try again!'];
+            this.comment = document.querySelector('#comment');
         this.replayButton = document.querySelector('#startGame');
         this.guiContainer = document.querySelector('#guiContainer');
 
@@ -52,6 +49,7 @@ export default class MyClientEngine extends ClientEngine {
     }
 
     hideReplayButton() {
+        this.replayButton.textContent = 'Replay!' // this will be gone soon anyway
         this.replayButton.disabled = true;
         this.guiContainer.style.opacity = 0;
     }
