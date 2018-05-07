@@ -10,9 +10,8 @@ export default class MyClientEngine extends ClientEngine {
 
         this.controls = new KeyboardControls(this);
         const bindKey = this.controls.bindKey.bind(this.controls);
-        this.comments = ['Better luck next time!', 'Would you like to try again?', 'Practice makes perfect...',
-            'You almost made it!', 'Keep trying!', 'Try again!'];
-            this.comment = document.querySelector('#comment');
+        this.comments = ['You fell into lava!', 'Try to avoid lava next time!', 'Jump higher!', 'You drowned in lava!', 'You must jump to stay alive!'];
+        this.comment = document.querySelector('#comment');
         this.replayButton = document.querySelector('#startGame');
         this.guiContainer = document.querySelector('#guiContainer');
 
