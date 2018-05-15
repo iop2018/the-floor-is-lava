@@ -1,10 +1,9 @@
 'use strict';
 
 import Spawner, { randomFromRange } from '../Spawner';
-import { nullWeapon } from '../models/Weapon';
 import TwoVector from 'lance/serialize/TwoVector';
 import Platform from '../models/Platform';
-import Collectible from '../models/Collectible';
+import Collectible, { getRandomPickupFunction } from '../models/Collectible';
 
 const props = {
     MIN_HEIGHT: 68,
@@ -14,7 +13,7 @@ const props = {
     MIN_X: -150,
     MAX_X: 1800,
     QUEUE_LENGTH: 2,
-    COLLECTIBLE_CHANCE: 1/30,
+    COLLECTIBLE_CHANCE: 1/10,
 };
 
 // Array of zeroes with size = QUEUE_LENGTH
@@ -25,7 +24,7 @@ let xPosQueue = new Array(props.QUEUE_LENGTH+1).join('0').split('').map(parseFlo
  *   - ranged between MIN_X and MAX_X
  *   - distant from value returned QUEUE_LENGTH calls before current one
  *     with a distance between MIN_DIST and MAX_DIST
- * @returns {Number}
+ * @return {Number}
  */
 function newPlatformXPos() {
     const lastXPos = xPosQueue.shift();
@@ -41,7 +40,7 @@ function newPlatformXPos() {
     return newXPos;
 }
 
-// not too distant platforms with an occasional mockup weapon
+// not too distant platforms with an occasional weapon
 export default class PlatformGen extends Spawner {
     constructor(gameEngine) {
         super({
@@ -58,7 +57,7 @@ export default class PlatformGen extends Spawner {
                     gameEngine.addObjectToWorld(
                     new Collectible(gameEngine, null, {
                         position: new TwoVector(xPos, height - 50),
-                        pickup: nullWeapon(gameEngine)  // TODO change to some real weapon
+                        pickupFunction: getRandomPickupFunction(gameEngine)
                     })
                 );
             },

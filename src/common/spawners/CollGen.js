@@ -1,12 +1,12 @@
-// random floating mockup collectibles
+// random floating collectibles
 import Spawner, { randomFromRange } from '../Spawner';
 import Collectible from '../models/Collectible';
-import { nullWeapon } from '../models/Weapon';
 import TwoVector from 'lance/serialize/TwoVector';
+import { getRandomPickupFunction } from '../models/Collectible';
 
 const props = {
-    MIN_DIFF: 165,
-    MAX_DIFF: 1075,
+    MIN_DIFF: 85,
+    MAX_DIFF: 115,
     Y_SPEED_SCALE: 3,
     X_SPEED_SCALE: 2,
     MIN_X: 120,
@@ -27,7 +27,7 @@ export default class collGen extends Spawner {
                     position: new TwoVector(xPos, yPos),
                     velocity: new TwoVector((Math.random() - 0.5) * props.X_SPEED_SCALE,
                         (Math.random() - 0.5) * props.Y_SPEED_SCALE),
-                    pickup: nullWeapon(gameEngine)  // TODO change to some real collectible
+                    pickupFunction: getRandomPickupFunction(gameEngine)
                 })
             );
             },
