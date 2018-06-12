@@ -18,4 +18,19 @@ export default class MyClientEngine extends ClientEngine {
         bindKey('enter', 'enter');
         bindKey(['z', 'shift'], 'shoot');
     }
+
+    start() {
+        super.start();
+
+        document.addEventListener('mousemove', (e) => {
+            this.sendInput('mousePos', {
+                x: (e.clientX - this.renderer.canvas.offsetLeft) * this.renderer.RATIO,
+                y: (e.clientY - this.renderer.canvas.offsetTop) * this.renderer.RATIO
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            this.sendInput('shoot');
+        });
+    }
 }

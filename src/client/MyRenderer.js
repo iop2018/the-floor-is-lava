@@ -157,7 +157,7 @@ export default class MyRenderer extends Renderer {
         weaponInfo.innerText = 'Weapon: ' + player.equippedWeapon.name;
         let bulletsInfo = document.createElement('div');
         bulletsInfo.name = 'bullets';
-        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets;
+        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets + '/' + player.equippedWeapon.maxBullets;
         playerInfo.appendChild(weaponInfo);
         playerInfo.appendChild(bulletsInfo);
         this.HUD.appendChild(playerInfo);
@@ -174,6 +174,6 @@ export default class MyRenderer extends Renderer {
         let weaponInfo = playerInfo.children[0];
         weaponInfo.innerText = 'Weapon: ' + player.equippedWeapon.name;
         let bulletsInfo = playerInfo.children[1];
-        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets;
+        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets + '/' + player.equippedWeapon.maxBullets;
     }
 }
