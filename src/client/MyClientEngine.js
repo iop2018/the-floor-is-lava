@@ -26,6 +26,7 @@ export default class MyClientEngine extends ClientEngine {
 
     start() {
         super.start();
+
         this.comment.textContent = 'So you click to start the game';
         // handle gui for game condition
         this.gameEngine.on('objectDestroyed', (obj) => {
@@ -39,8 +40,19 @@ export default class MyClientEngine extends ClientEngine {
             this.hideReplayButton();
             this.socket.emit('requestRestart');
         });
-    }
 
+        document.addEventListener('mousemove', (e) => {
+            this.sendInput('mousePos', {
+                x: (e.clientX - this.renderer.canvas.offsetLeft) * this.renderer.RATIO,
+                y: (e.clientY - this.renderer.canvas.offsetTop) * this.renderer.RATIO
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            this.sendInput('shoot');
+        });
+    }
+    
     showReplayButton() {
         this.comment.textContent = this.comments[Math.floor(Math.random() * this.comments.length)];
         this.replayButton.disabled = false;
@@ -53,3 +65,11 @@ export default class MyClientEngine extends ClientEngine {
         this.guiContainer.style.opacity = 0;
     }
 }
+
+
+
+
+
+
+        
+

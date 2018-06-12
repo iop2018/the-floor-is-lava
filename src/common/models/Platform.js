@@ -26,13 +26,7 @@ export default class Platform extends DynamicObject {
         console.log(`Platform: handlePlayerCollision: player ${player.id} with platform ${this.id}`);
 
         // vertical collision
-        if (player.position.y > this.position.y) {
-            if (player.velocity.y < 0) {
-                // stop player from going through ceiling
-                player.position.y = this.position.y + (this.height + player.height) / 2;
-                player.velocity.y = 0;
-            }
-        } else {
+        if (player.position.y <= this.position.y) {
             if (player.velocity.y > 0) {
                 // position player on top and prevent falling down
 

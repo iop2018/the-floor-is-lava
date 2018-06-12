@@ -16,12 +16,8 @@ const FALLING_SPEED = 0.5;
 const JUMPING_SPEED = -13;
 const POSITION_CHANGE = 12; // pixels moving with every keystoke
 
-const BULLET_VELOCITY = new TwoVector(5, 0);
-const BULLET_INITIAL_DISTANCE = new TwoVector(20, 0);
-const BULLET_LIFETIME = 3000;
-const BULLET_HIT_TIME = 500;
 const TERMINATE_OBJECT_HEIGHT = 1200;
-const INITIAL_WORLD_SPEED = new TwoVector(0.151, 2.3);
+const INITIAL_WORLD_SPEED = new TwoVector(0.151, 0.6);
 
 export default class MyGameEngine extends GameEngine {
 
@@ -73,19 +69,14 @@ export default class MyGameEngine extends GameEngine {
                 }
                 let collectible = e.o2 instanceof Collectible ? e.o2 : null;
                 if (collectible) {
-                    if (collectible.pickup instanceof Weapon) {
-                        console.log(`player ${player.id} collected weapon`);
-                        if (player.equippedWeapon && !isNullWeapon(player.equippedWeapon))
-                            this.removeObjectFromWorld(player.equippedWeapon);
-                        player.equippedWeapon = collectible.pickup;
-                        this.removeObjectFromWorld(collectible);
-                    }
+                    collectible.pickupFunction(this, player);
+                    this.removeObjectFromWorld(collectible);
                     return;
                 }
 
                 let bullet = e.o2 instanceof Bullet ? e.o2 : null;
-                if (bullet) {
-                    bullet.onCollisionFunction(player);
+                if (bullet && bullet.playerId !== player.playerId) { // do not collide with your own bullets
+                    bullet.onCollisionFunction(this, player);
                     this.removeObjectFromWorld(bullet);
                 }
             }
@@ -131,7 +122,6 @@ export default class MyGameEngine extends GameEngine {
             switch (inputData.input) {
             case 'jump':
                 if (player.onPlatform) {
-                    // tak jest zasymulowany skok
                     player.velocity.y = JUMPING_SPEED;
                 }
                 break;
@@ -152,6 +142,11 @@ export default class MyGameEngine extends GameEngine {
             case 'shoot':
                 this.shoot(player);
                 break;
+            case 'mousePos':
+                console.log(inputData.options.x, inputData.options.y);
+                player.mouseXPosition = inputData.options.x;
+                player.mouseYPosition = inputData.options.y;
+                break;
             }
         }
     }
@@ -159,31 +154,6 @@ export default class MyGameEngine extends GameEngine {
 
     // ran on server-side gameEngine instance when the game begins
     initGame() {
-        // Shoot example
-        let bulletHitExample = (player) => {
-            player.velocity.y -= 5;
-            player.velocity.x += 5;
-            setTimeout(() => {
-                player.velocity.x = 0;
-            }, BULLET_HIT_TIME);
-        };
-        let shootExample = (player) => {
-            console.log(`Hello there!`);
-            let bullet = this.addObjectToWorld(new Bullet(this, null, {
-                position: player.position.clone().add(BULLET_INITIAL_DISTANCE),
-                velocity: BULLET_VELOCITY,
-                onCollisionFunction: bulletHitExample
-            }));
-            setTimeout(() => {
-                if (this.world.objects[bullet.id]) // does it still exist?
-                    this.removeObjectFromWorld(bullet);
-            }, BULLET_LIFETIME);
-        };
-        let weapon = this.addObjectToWorld(new Weapon(this, null,
-            { shootFunction: shootExample, bullets: 50, name: 'Simple Gun 2' })); // TODO construct weapons only on collect
-        this.addObjectToWorld(new Collectible(this, null,
-            { position: new TwoVector(300, 250), pickup: weapon }));
-
         this.levelGenerator = new LevelGenerator(this);
         this.levelGenerator.initLevel();
 
@@ -197,17 +167,15 @@ export default class MyGameEngine extends GameEngine {
     }
 
     shoot(player) {
-        if (!player.equippedWeapon || isNullWeapon(player.equippedWeapon))
+        if (isNullWeapon(player.equippedWeapon))
             return;
 
         let weapon = player.equippedWeapon;
-        weapon.shootFunction(player);
+        weapon.shootFunction(this, player);
         --weapon.bullets;
 
         if (!weapon.bullets) {
-            console.log(`Out of bullets`);
             player.equippedWeapon = nullWeapon(this);
-            this.removeObjectFromWorld(weapon);
         }
     }
 }
