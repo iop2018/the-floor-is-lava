@@ -2,6 +2,7 @@
 
 import Renderer from 'lance/render/Renderer';
 import * as PIXI from 'pixi.js';
+import 'pixi-layers';
 import Player from '../common/models/Player';
 import Platform from '../common/models/Platform';
 import Collectible from '../common/models/Collectible';
@@ -34,17 +35,29 @@ export default class MyRenderer extends Renderer {
     constructor(gameEngine, clientEngine) {
         console.log('R: Constructing');
         super(gameEngine, clientEngine);
+        document.renderer = this;
 
+        // Variables controlling aspect ratio
         this.RATIO = 1920/1080;
         this.BASE_WIDTH = 1920; // When game container has this width, 1px = 1 game unit
 
         this.sprites = new Map();
         this.players = new Set();
-        document.renderer = this;
+
         this.containerDiv = document.getElementById('gameContainer');
         this.canvas = document.getElementById('gameArea');
         this.HUD = document.getElementById('hud');
-        this.stage = new PIXI.Container();
+
+        // Set up layers
+        this.platformGroup = new PIXI.display.Group(1, false);
+        this.otherPlayersGroup = new PIXI.display.Group(2, false);
+        this.topGroup = new PIXI.display.Group(3, true);
+
+        // Set up display and autoresize
+        this.stage = new PIXI.display.Stage();
+        this.stage.addChild(new PIXI.display.Layer(this.platformGroup));
+        this.stage.addChild(new PIXI.display.Layer(this.otherPlayersGroup));
+        this.stage.addChild(new PIXI.display.Layer(this.topGroup));
         this.renderer = PIXI.autoDetectRenderer({
             'width': 0,
             'height': 0,
@@ -96,17 +109,25 @@ export default class MyRenderer extends Renderer {
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
             sprite.tint = getPlayerColor(obj.playerId);
             this.createHUD(obj);
+            if (obj.playerId === this.gameEngine.playerId) {
+                sprite.parentGroup = this.topGroup;
+            } else {
+                sprite.parentGroup = this.otherPlayersGroup;
+            }
         } else if (obj.class === Platform) {
             console.log('R: addObject: Platform');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
+            sprite.parentGroup = this.platformGroup;
         } else if (obj.class === Collectible) {
             console.log('R: addObject: Collectible');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
             sprite.tint = BROWN;
+            sprite.parentGroup = this.topGroup;
         } else if (obj.class === Bullet) {
             console.log('R: addObject: Bullet');
             sprite = new PIXI.Sprite(PIXI.Texture.WHITE);
             sprite.tint = RED;
+            sprite.parentGroup = this.topGroup;
         } else {
             console.log('R: addObject: unknown', obj);
             return;
@@ -136,7 +157,7 @@ export default class MyRenderer extends Renderer {
         weaponInfo.innerText = 'Weapon: ' + player.equippedWeapon.name;
         let bulletsInfo = document.createElement('div');
         bulletsInfo.name = 'bullets';
-        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets;
+        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets + '/' + player.equippedWeapon.maxBullets;
         playerInfo.appendChild(weaponInfo);
         playerInfo.appendChild(bulletsInfo);
         this.HUD.appendChild(playerInfo);
@@ -153,6 +174,6 @@ export default class MyRenderer extends Renderer {
         let weaponInfo = playerInfo.children[0];
         weaponInfo.innerText = 'Weapon: ' + player.equippedWeapon.name;
         let bulletsInfo = playerInfo.children[1];
-        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets;
+        bulletsInfo.innerText = 'Bullets: ' + player.equippedWeapon.bullets + '/' + player.equippedWeapon.maxBullets;
     }
 }
