@@ -3,7 +3,7 @@
 This is a multiplayer platformer game based on:
 - client-server architecture
 - web browser client
-- [lance.gg](https://lance.gg) framework
+- [lance.gg](https://lance-gg.github.io) framework
 
 ---
 
